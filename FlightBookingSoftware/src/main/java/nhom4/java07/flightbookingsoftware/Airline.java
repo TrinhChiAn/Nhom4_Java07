@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Tuan Anh
+ *
  */
 public class Airline {
     private String airlineCode; // mã hãng
     private String airlineName;  // tên hạng
     private int aircraftCount; // số lượng máy bay
     private ArrayList<String> aircraftNumbers;
-// an đá thay đổi
+
     public Airline() {
         aircraftNumbers = new ArrayList<>();
     }
