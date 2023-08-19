@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Tuan A
+ * @author Tuan Anh
  */
 public class Airline {
     private String airlineCode; // mã hãng
