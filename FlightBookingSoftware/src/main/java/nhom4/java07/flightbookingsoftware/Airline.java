@@ -11,9 +11,9 @@ import java.util.ArrayList;
  * @author Tuan Anh
  */
 public class Airline {
-    private String airlineCode;
-    private String airlineName;
-    private int aircraftCount;
+    private String airlineCode; // mã hãng
+    private String airlineName;  // tên hạng
+    private int aircraftCount; // số lượng máy bay
     private ArrayList<String> aircraftNumbers;
 
     public Airline() {
