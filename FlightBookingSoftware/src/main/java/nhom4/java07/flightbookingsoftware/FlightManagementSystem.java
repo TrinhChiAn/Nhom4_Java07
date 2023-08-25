@@ -12,7 +12,8 @@ import java.util.Scanner;
  * @author Tuan Anh
  */
 public class FlightManagementSystem {
-    ArrayList<Airline> Airlines ;
+
+    ArrayList<Airline> Airlines;
 
     public FlightManagementSystem() {
     }
@@ -20,12 +21,37 @@ public class FlightManagementSystem {
     public FlightManagementSystem(ArrayList<Airline> Airlines) {
         this.Airlines = Airlines;
     }
-     
-    public void addAirline(Scanner input){
+
+    public void addAirline(Scanner sc) {
+        try {
+            System.out.print("Nhap vao ten hang:");
+            String tenHang = sc.nextLine();
+            System.out.print("Nhap vao so luong may bay cua hang:");
+            int soLuongMayBay = sc.nextInt();
+            System.out.print("Nhap vao danh sach so hieu may bay:");
+            ArrayList<String> maMayBay = new ArrayList<>();
+            for (int i = 0; i < soLuongMayBay; i++) {
+                IdGenerator generator = new IdGenerator();
+                generator.init("TK", "", 1);
+                maMayBay.add(generator.generate());
+            }
+            Airlines.add(new Airline(Airlines.size()+1,tenHang,soLuongMayBay,maMayBay));
+        } catch (Exception e) {
+            System.out.println("Ban da nhap sai gia tri.");
+        }
         
     }
-    
-    public void removeAirline(Scanner input){
-        
+
+    public void removeAirline(Scanner sc) {
+        System.out.print("Nhap vao ma hang muon xoa");
+        String maHang = sc.nextLine();
+        for(int i=0; i< Airlines.size(); i++){
+            if(Airlines.get(i).getAirlineCode().equals(maHang))
+            {
+                Airlines.remove(i);
+                return;
+            }
+        }
+        System.out.println("Khong tim thay hang hang khong nao co ma: "+maHang);
     }
 }

@@ -148,10 +148,6 @@ public class Flight { // chuyến bay
         this.listPassenger = listPassenger;
     }
 
-    public double doanhThuChuyenBay() {
-        return bussinessTicketPrice * soldBusinessTickets + economyTicketPrice * soldEconomTickets;
-    }
-
     public double getEconomyTicketPrice() {
         return economyTicketPrice;
     }
@@ -166,5 +162,21 @@ public class Flight { // chuyến bay
 
     public void setBussinessTicketPrice(double bussinessTicketPrice) {
         this.bussinessTicketPrice = bussinessTicketPrice;
+    }
+
+    public boolean soVeConLai() {
+        return ((economySeats - soldEconomTickets) + (businessSeats - soldBusinessTickets)) != 0;
+    }
+
+    public double doanhThuChuyenBay() {
+        return bussinessTicketPrice * soldBusinessTickets + economyTicketPrice * soldEconomTickets;
+    }
+
+    public void addPassenger(Passenger passenger) {
+        listPassenger.add(passenger);
+    }
+
+    public void removePassenger(Passenger passenger) {
+        listPassenger.remove(passenger);
     }
 }
