@@ -23,6 +23,9 @@ public class Flight { // chuyến bay
     private int economySeats; // số lượng chỗ ngồi hạng thường
     private int soldBusinessTickets; // số lượng vé thương gia đã bán ra
     private int soldEconomTickets; // số lượng vé phổ thông đã bán ra
+    private double economyTicketPrice;// giá vé hàng ghế phổ thông
+    private double bussinessTicketPrice;// giá vé hàng ghế thương gia
+
     private ArrayList<Passenger> listPassenger; // danh sách các hành khách trên chuyến bay
 
     public Flight() {
@@ -31,7 +34,7 @@ public class Flight { // chuyến bay
         listPassenger = new ArrayList<>();
     }
 
-    public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldTickets) {
+    public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldTickets, double economyTicketPrice, double bussinessTicketPrice) {
         IdGenerator generator = new IdGenerator();
         generator.init("FlyN", "", n);
         this.flightNumber = generator.generate();
@@ -42,6 +45,8 @@ public class Flight { // chuyến bay
         this.arrivalTime = arrivalTime;
         this.businessSeats = businessSeats;
         this.economySeats = economySeats;
+        this.economyTicketPrice = economyTicketPrice;
+        this.bussinessTicketPrice = bussinessTicketPrice;
         soldBusinessTickets = 0;
         soldEconomTickets = 0;
         listPassenger = new ArrayList<>();
@@ -143,4 +148,23 @@ public class Flight { // chuyến bay
         this.listPassenger = listPassenger;
     }
 
+    public double doanhThuChuyenBay() {
+        return bussinessTicketPrice * soldBusinessTickets + economyTicketPrice * soldEconomTickets;
+    }
+
+    public double getEconomyTicketPrice() {
+        return economyTicketPrice;
+    }
+
+    public void setEconomyTicketPrice(double economyTicketPrice) {
+        this.economyTicketPrice = economyTicketPrice;
+    }
+
+    public double getBussinessTicketPrice() {
+        return bussinessTicketPrice;
+    }
+
+    public void setBussinessTicketPrice(double bussinessTicketPrice) {
+        this.bussinessTicketPrice = bussinessTicketPrice;
+    }
 }
