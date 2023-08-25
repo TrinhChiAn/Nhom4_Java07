@@ -8,7 +8,7 @@ package nhom4.java07.flightbookingsoftware;
  *
  * @author Tuan Anh
  */
-public class Passenger {        // Hành khách
+public class Passenger implements Comparable<Passenger>{        // Hành khách
     private String cccd; // số cccd
     private String fullName; // họ và tên
     private String ticketcode; // mã vé
@@ -46,6 +46,13 @@ public class Passenger {        // Hành khách
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    @Override
+    public int compareTo(Passenger o) {
+        String[] str = this.fullName.split(" ");
+        String[] str2 = o.getFullName().split(" ");
+        return str[str.length].compareTo(str2[str2.length-1]);
     }
     
 }

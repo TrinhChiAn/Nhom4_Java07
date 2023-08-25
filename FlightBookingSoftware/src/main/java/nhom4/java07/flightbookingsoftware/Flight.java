@@ -31,10 +31,9 @@ public class Flight { // chuyến bay
         listPassenger = new ArrayList<>();
     }
 
-    public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldTickets) {
-        IdGenerator generator = new IdGenerator();
-        generator.init("FlyN", "", n);
-        this.flightNumber = generator.generate();
+    public Flight(String flightNumber, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldTickets) {
+        
+        this.flightNumber = flightNumber;
         this.aircraftNumber = aircraftNumber;
         this.departure = departure;
         this.destination = destination;

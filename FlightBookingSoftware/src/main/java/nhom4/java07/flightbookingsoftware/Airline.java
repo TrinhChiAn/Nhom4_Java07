@@ -27,6 +27,18 @@ public class Airline {
     public Airline() {
     }
 
+    public Airline(int n, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("AIR", "", n);
+        this.airlineCode = generator.generate();
+        this.airlineName = airlineName;
+        this.aircraftCount = aircraftCount;
+        this.aircraftNumbers = aircraftNumbers;
+        flights = new ArrayList<>();
+        flightsbyTime = new ArrayList<>();
+        flightsbyDate = new ArrayList<>();
+    }
+
     public Airline(int n, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers, ArrayList<Flight> flights, ArrayList<Flight> flightsbyTime, ArrayList<Flight> flightsbyDate) {
         IdGenerator generator = new IdGenerator();
         generator.init("AIR", "", n);
@@ -149,28 +161,6 @@ public class Airline {
         
     }
     
-    
-    //Điền thông tin của các hãng máy bay
-    public void inputInfoairline(Scanner sc) {
-
-        System.out.print("Enter airline code: ");
-        airlineCode = sc.nextLine();
-
-        System.out.print("Enter airline name: ");
-        airlineName = sc.nextLine();
-
-        System.out.print("Enter aircraft count: ");
-        aircraftCount = Integer.parseInt(sc.nextLine());
-
-        aircraftNumbers = new ArrayList<>();
-        for (int i = 0; i < aircraftCount; i++) {
-            System.out.print("Enter aircraft number " + (i + 1) + ": ");
-            String aircraftNumber = sc.nextLine();
-            aircraftNumbers.add(aircraftNumber);
-
-        }
-
-    }
 
     // show thông tin các hãng máy bay
     public void showinfoInfoairline() {
@@ -192,7 +182,7 @@ public class Airline {
         sc.nextLine();
         for (int i = 0; i < airlineCount; i++) {
             System.out.println("Airline number " + (i + 1) + ":");
-            airline.inputInfoairline(sc);
+            
             airline.showinfoInfoairline();
 
         }
