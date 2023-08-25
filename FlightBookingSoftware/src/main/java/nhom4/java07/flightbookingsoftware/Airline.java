@@ -20,8 +20,10 @@ public class Airline {
         aircraftNumbers = new ArrayList<>();
     }
 
-    public Airline(String airlineCode, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers) {
-        this.airlineCode = airlineCode;
+    public Airline(int n, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("AIR", "", n);
+        this.airlineCode = generator.generate();
         this.airlineName = airlineName;
         this.aircraftCount = aircraftCount;
         this.aircraftNumbers = aircraftNumbers;
