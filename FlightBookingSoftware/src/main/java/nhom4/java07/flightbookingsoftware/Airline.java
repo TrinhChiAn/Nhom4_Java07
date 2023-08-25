@@ -28,8 +28,10 @@ public class Airline {
     public Airline() {
     }
 
-    public Airline(String airlineCode, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers, ArrayList<Flight> flights, ArrayList<Flight> flightsbyTime, ArrayList<Flight> flightsbyDate) {
-        this.airlineCode = airlineCode;
+    public Airline(int n, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers, ArrayList<Flight> flights, ArrayList<Flight> flightsbyTime, ArrayList<Flight> flightsbyDate) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("AIR", "", n);
+        this.airlineCode = generator.generate();
         this.airlineName = airlineName;
         this.aircraftCount = aircraftCount;
         this.aircraftNumbers = aircraftNumbers;

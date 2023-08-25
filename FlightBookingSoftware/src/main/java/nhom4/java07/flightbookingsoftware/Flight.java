@@ -5,12 +5,14 @@
 package nhom4.java07.flightbookingsoftware;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  *
  * @author Tuan Anh
  */
 public class Flight { // chuyến bay
+
     private String flightNumber;  // số hiệu chuyến bay
     private String aircraftNumber; // số hiệu máy bay
     private String departure; // điểm xuất phát
@@ -19,13 +21,20 @@ public class Flight { // chuyến bay
     private LocalDateTime arrivalTime; // thời gian đến
     private int businessSeats; // số lượng chỗ ngồi hạng thương gia
     private int economySeats; // số lượng chỗ ngồi hạng thường
-    private int soldTickets; // số lượng vé bán ra
+    private int soldBusinessTickets; // số lượng vé thương gia đã bán ra
+    private int soldEconomTickets; // số lượng vé phổ thông đã bán ra
+    private ArrayList<Passenger> listPassenger; // danh sách các hành khách trên chuyến bay
 
     public Flight() {
+        soldBusinessTickets = 0;
+        soldEconomTickets = 0;
+        listPassenger = new ArrayList<>();
     }
 
-    public Flight(String flightNumber, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldTickets) {
-        this.flightNumber = flightNumber;
+    public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldTickets) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("FlyN", "", n);
+        this.flightNumber = generator.generate();
         this.aircraftNumber = aircraftNumber;
         this.departure = departure;
         this.destination = destination;
@@ -33,15 +42,17 @@ public class Flight { // chuyến bay
         this.arrivalTime = arrivalTime;
         this.businessSeats = businessSeats;
         this.economySeats = economySeats;
-        this.soldTickets = soldTickets;
+        soldBusinessTickets = 0;
+        soldEconomTickets = 0;
+        listPassenger = new ArrayList<>();
     }
 
-    public int getSoldTickets() {
-        return soldTickets;
+    public int getSoLuongVePhoThon() {
+        return economySeats - soldEconomTickets;
     }
 
-    public void setSoldTickets(int soldTickets) {
-        this.soldTickets = soldTickets;
+    public int getSoLuongVeThuongGia() {
+        return businessSeats - soldBusinessTickets;
     }
 
     public String getFlightNumber() {
@@ -107,5 +118,29 @@ public class Flight { // chuyến bay
     public void setEconomySeats(int economySeats) {
         this.economySeats = economySeats;
     }
-    
+
+    public int getSoldBusinessTickets() {
+        return soldBusinessTickets;
+    }
+
+    public void setSoldBusinessTickets(int soldBusinessTickets) {
+        this.soldBusinessTickets = soldBusinessTickets;
+    }
+
+    public int getSoldEconomTickets() {
+        return soldEconomTickets;
+    }
+
+    public void setSoldEconomTickets(int soldEconomTickets) {
+        this.soldEconomTickets = soldEconomTickets;
+    }
+
+    public ArrayList<Passenger> getListPassenger() {
+        return listPassenger;
+    }
+
+    public void setListPassenger(ArrayList<Passenger> listPassenger) {
+        this.listPassenger = listPassenger;
+    }
+
 }

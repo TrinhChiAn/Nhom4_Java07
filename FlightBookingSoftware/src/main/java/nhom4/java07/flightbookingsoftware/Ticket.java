@@ -19,8 +19,10 @@ public class Ticket {  // vé
     public Ticket() {
     }
 
-    public Ticket(String ticketCode, String flightNumber, String departure, String destination, LocalDateTime departureTime, LocalDateTime arrivalTime, String seatClass, double ticketPrice) {
-        this.ticketCode = ticketCode;
+    public Ticket(int n, String flightNumber, String departure, String destination, LocalDateTime departureTime, LocalDateTime arrivalTime, String seatClass, double ticketPrice) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("TK", "", n);
+        this.ticketCode = generator.generate();
         this.flightNumber = flightNumber;
         this.departure = departure;
         this.destination = destination;

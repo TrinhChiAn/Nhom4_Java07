@@ -16,8 +16,10 @@ public class Passenger {        // Hành khách
     public Passenger() {
     }
 
-    public Passenger(String cccd, String fullName, String ticketcode) {
-        this.cccd = cccd;
+    public Passenger(int n, String fullName, String ticketcode) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("VN", "U", n);
+        this.cccd = generator.generate();
         this.fullName = fullName;
         this.ticketcode = ticketcode;
     }
