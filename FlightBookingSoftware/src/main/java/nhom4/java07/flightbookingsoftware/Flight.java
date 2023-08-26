@@ -23,16 +23,17 @@ public class Flight { // chuyến bay
     private int economySeats; // số lượng chỗ ngồi hạng thường
     private int soldBusinessTickets; // số lượng vé thương gia đã bán ra
     private int soldEconomTickets; // số lượng vé phổ thông đã bán ra
-    private double economyTicketPrice;// giá vé hàng ghế phổ thông
-    private double bussinessTicketPrice;// giá vé hàng ghế thương gia
-
+    private int EconomyFare;
+    private int BusinessFare;
     private ArrayList<Passenger> listPassenger; // danh sách các hành khách trên chuyến bay
 
     public Flight() {
         
     }
 
+
     public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, double economyTicketPrice, double bussinessTicketPrice, int soldEconomTickets, int soldBusinessTickets) {
+
         IdGenerator generator = new IdGenerator();
         generator.init("FlyN", "", n);
         this.flightNumber = generator.generate();
@@ -43,10 +44,12 @@ public class Flight { // chuyến bay
         this.arrivalTime = arrivalTime;
         this.businessSeats = businessSeats;
         this.economySeats = economySeats;
+
         this.economyTicketPrice = economyTicketPrice;
         this.bussinessTicketPrice = bussinessTicketPrice;
         this.soldBusinessTickets = soldBusinessTickets;
         this.soldEconomTickets = soldEconomTickets;
+
     }
 
     public int getSoLuongVePhoThong() {
@@ -144,36 +147,38 @@ public class Flight { // chuyến bay
     public void setListPassenger(ArrayList<Passenger> listPassenger) {
         this.listPassenger = listPassenger;
     }
+ public double statisticize_turnOver(Flight[] fl, int choose, int option) {
+        double turnOver = 0;
 
-    public double getEconomyTicketPrice() {
-        return economyTicketPrice;
+        for (Flight flight : fl) {
+            if (choose == 1) { // tinh doanh thu theo thang
+                if (flight.getArrivalTime().getMonth().getValue() == option) {
+                    turnOver += flight.soldEconomTickets() * flight.getEconomyFare()
+                            + flight.getUsedBusinessSeats() * flight.getBusinessFare();
+                }
+            } else if (choose == 2) { // tinh doanh thu theo nam
+                if (flight.getArrivalTime().getYear() == option) {
+                    turnOver += flight.getUsedEconomySeats() * flight.getEconomyFare()
+                            + flight.getUsedBusinessSeats() * flight.getBusinessFare();
+                }
+            }
+        }
+        return turnOver;
     }
 
-    public void setEconomyTicketPrice(double economyTicketPrice) {
-        this.economyTicketPrice = economyTicketPrice;
+    public int getEconomyFare() {
+        return EconomyFare;
     }
 
-    public double getBussinessTicketPrice() {
-        return bussinessTicketPrice;
+    public void setEconomyFare(int EconomyFare) {
+        this.EconomyFare = EconomyFare;
     }
 
-    public void setBussinessTicketPrice(double bussinessTicketPrice) {
-        this.bussinessTicketPrice = bussinessTicketPrice;
+    public int getBusinessFare() {
+        return BusinessFare;
     }
 
-    public boolean soVeConLai() {
-        return ((economySeats - soldEconomTickets) + (businessSeats - soldBusinessTickets)) != 0;
-    }
-
-    public double doanhThuChuyenBay() {
-        return bussinessTicketPrice * soldBusinessTickets + economyTicketPrice * soldEconomTickets;
-    }
-
-    public void addPassenger(Passenger passenger) {
-        listPassenger.add(passenger);
-    }
-
-    public void removePassenger(Passenger passenger) {
-        listPassenger.remove(passenger);
+    public void setBusinessFare(int BusinessFare) {
+        this.BusinessFare = BusinessFare;
     }
 }
