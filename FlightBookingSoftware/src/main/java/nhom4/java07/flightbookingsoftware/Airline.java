@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,32 +25,23 @@ public class Airline {
     private ArrayList<Flight> flightsbyTime; //Danh sách chuyến bay theo giờ
     private ArrayList<Flight> flightsbyDate;//Danh sách chuyến bay theo ngày
     private Iterable<Ticket> ticketlist; //Danh sach ve
+    private ArrayList<Flight> filteredFlightsdepartune;
+    private ArrayList<Flight> filteredFlightsarrival = new ArrayList<>();
+    //=================================================================================
 
     public Airline() {
     }
 
-    public Airline(int n, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers) {
-        IdGenerator generator = new IdGenerator();
-        generator.init("AIR", "", n);
-        this.airlineCode = generator.generate();
+    public Airline(String airlineCode, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers, ArrayList<Flight> flightslist, ArrayList<Flight> flightsbyTime, ArrayList<Flight> flightsbyDate, Iterable<Ticket> ticketlist, ArrayList<Flight> filteredFlightsdepartune) {
+        this.airlineCode = airlineCode;
         this.airlineName = airlineName;
         this.aircraftCount = aircraftCount;
         this.aircraftNumbers = aircraftNumbers;
-        flightslist = new ArrayList<>();
-        flightsbyTime = new ArrayList<>();
-        flightsbyDate = new ArrayList<>();
-    }
-
-    public Airline(int n, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers, ArrayList<Flight> flights, ArrayList<Flight> flightsbyTime, ArrayList<Flight> flightsbyDate) {
-        IdGenerator generator = new IdGenerator();
-        generator.init("AIR", "", n);
-        this.airlineCode = generator.generate();
-        this.airlineName = airlineName;
-        this.aircraftCount = aircraftCount;
-        this.aircraftNumbers = aircraftNumbers;
-        this.flightslist = flights;
+        this.flightslist = flightslist;
         this.flightsbyTime = flightsbyTime;
         this.flightsbyDate = flightsbyDate;
+        this.ticketlist = ticketlist;
+        this.filteredFlightsdepartune = filteredFlightsdepartune;
     }
 
     public String getAirlineCode() {
@@ -108,48 +100,70 @@ public class Airline {
         this.flightsbyDate = flightsbyDate;
     }
 
+    public Iterable<Ticket> getTicketlist() {
+        return ticketlist;
+    }
+
+    public void setTicketlist(Iterable<Ticket> ticketlist) {
+        this.ticketlist = ticketlist;
+    }
+
+    public ArrayList<Flight> getFilteredFlightsdepartune() {
+        return filteredFlightsdepartune;
+    }
+
+    public void setFilteredFlightsdepartune(ArrayList<Flight> filteredFlightsdepartune) {
+        this.filteredFlightsdepartune = filteredFlightsdepartune;
+    }
+
+    public ArrayList<Flight> getFilteredFlightsarrival() {
+        return filteredFlightsarrival;
+    }
+
+    public void setFilteredFlightsarrival(ArrayList<Flight> filteredFlightsarrival) {
+        this.filteredFlightsarrival = filteredFlightsarrival;
+    }
+    
+    
+    
     //==================================================================================
     //Lọc các chuyến bay theo ngày
-    public ArrayList<Flight> filterFlightsByDate(LocalDateTime date) {
-        ArrayList<Flight> filteredFlightsDate = new ArrayList<>();
+    public void filterFlightsByDate(LocalDateTime date) {
+         flightsbyDate = new ArrayList<>();
         for (Flight flight : flightslist) {
             if (flight.getDeparture().equals(date)) {
-                filteredFlightsDate.add(flight);
+                flightsbyDate.add(flight);
             }
         }
-        return filteredFlightsDate;
     }
 
     //Lọc các chuyến bay theo giờ 
-    public ArrayList<Flight> filterFlightsByTime(LocalDateTime time) {
-        ArrayList<Flight> filteredFlightsTime = new ArrayList<>();
+    public void filterFlightsByTime(LocalDateTime time) {
+        flightsbyTime = new ArrayList<>();
         for (Flight flight : flightslist) {
             if (flight.getDeparture().equals(time)) {
-                filteredFlightsTime.add(flight);
+                flightsbyTime.add(flight);
             }
         }
-        return filteredFlightsTime;
     }
 
     //Lọc các chuyến bao theo thời gian đến và thời gian đi
-    public ArrayList<Flight> filterFlightD() { //Lọc các chuyến bay đi
-        ArrayList<Flight> filteredFlightsdepartune = new ArrayList<>();
+    public void filterFlightD() { //Lọc các chuyến bay đi
+        filteredFlightsdepartune = new ArrayList<>();
         for (Flight flight : flightslist) {
             if (flight.getDeparturetime().isEqual((ChronoLocalDateTime<?>) filteredFlightsdepartune)) {
                 filteredFlightsdepartune.add(flight);
             }
         }
-        return filteredFlightsdepartune;
     }
 
-    public ArrayList<Flight> filterFlightV() { //Lọc các chuyến bay về
-        ArrayList<Flight> filteredFlightsarrival = new ArrayList<>();
+    public void filterFlightV() { //Lọc các chuyến bay về
+         filteredFlightsarrival = new ArrayList<>();
         for (Flight flight : flightslist) {
             if (flight.getArrivalTime().isEqual((ChronoLocalDateTime<?>) filteredFlightsarrival)) {
                 filteredFlightsarrival.add(flight);
             }
         }
-        return filteredFlightsarrival;
     }
 
     //======================================================================================================
@@ -173,18 +187,38 @@ public class Airline {
     public double revenueairlien(ArrayList<Flight> flightslist, ArrayList<Ticket> ticketlsit, int year, int month) {
         double revenue = 0; // Thu nhap
         for (Flight flight : flightslist) {
-            for (Ticket ticket : ticketlist) {
                 LocalDate departureDate = flight.getDeparturetime().toLocalDate();
-                if (departureDate.getYear() == year) {//Thu nhập theo năm
-                    revenue += flight.getSoldTickets() * ticket.getTicketPrice();
-                } else if (departureDate.getMonthValue() == month) { //Thu nhập theo tháng
-                    revenue += flight.getSoldTickets() * ticket.getTicketPrice();
+                if (departureDate.getYear() == year) {
+                    revenue += flight.getSoldBusinessTickets()*flight.getBussinessTicketPrice() + flight.getSoldEconomTickets()*flight.getEconomyTicketPrice();
+                } else if (departureDate.getMonthValue() == month) {
+                     revenue += flight.getSoldBusinessTickets()*flight.getBussinessTicketPrice() + flight.getSoldEconomTickets()*flight.getEconomyTicketPrice();
                 }
             }
-        }
         return revenue;
     }
 
+    //===========================================================================================================
+    //Điền thông tin của các hãng máy bay
+    public void inputInfoairline(Scanner sc) {
+
+        System.out.print("Enter airline code: ");
+        airlineCode = sc.nextLine();
+
+        System.out.print("Enter airline name: ");
+        airlineName = sc.nextLine();
+
+        System.out.print("Enter aircraft count: ");
+        aircraftCount = Integer.parseInt(sc.nextLine());
+
+        aircraftNumbers = new ArrayList<>();
+        for (int i = 0; i < aircraftCount; i++) {
+            System.out.print("Enter aircraft number " + (i + 1) + ": ");
+            String aircraftNumber = sc.nextLine();
+            aircraftNumbers.add(aircraftNumber);
+
+        }
+
+    }
 
     //===========================================================================================================================
     // show thông tin các hãng máy bay
@@ -194,10 +228,9 @@ public class Airline {
         System.out.println("Airline Name: " + airlineName);
         System.out.println("Aircraft Count: " + aircraftCount);
         System.out.println("Aircraft Numbers: " + aircraftNumbers);
-
     }
 
-    //=============================================================================================================
+//=============================================================================================================
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Airline airline = new Airline();
@@ -207,7 +240,7 @@ public class Airline {
         sc.nextLine();
         for (int i = 0; i < airlineCount; i++) {
             System.out.println("Airline number " + (i + 1) + ":");
-            
+            airline.inputInfoairline(sc);
             airline.showinfoInfoairline();
 
         }
