@@ -29,12 +29,10 @@ public class Flight { // chuyến bay
     private ArrayList<Passenger> listPassenger; // danh sách các hành khách trên chuyến bay
 
     public Flight() {
-        soldBusinessTickets = 0;
-        soldEconomTickets = 0;
-        listPassenger = new ArrayList<>();
+        
     }
 
-    public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldTickets, double economyTicketPrice, double bussinessTicketPrice) {
+    public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, double economyTicketPrice, double bussinessTicketPrice, int soldEconomTickets, int soldBusinessTickets) {
         IdGenerator generator = new IdGenerator();
         generator.init("FlyN", "", n);
         this.flightNumber = generator.generate();
@@ -47,12 +45,11 @@ public class Flight { // chuyến bay
         this.economySeats = economySeats;
         this.economyTicketPrice = economyTicketPrice;
         this.bussinessTicketPrice = bussinessTicketPrice;
-        soldBusinessTickets = 0;
-        soldEconomTickets = 0;
-        listPassenger = new ArrayList<>();
+        this.soldBusinessTickets = soldBusinessTickets;
+        this.soldEconomTickets = soldEconomTickets;
     }
 
-    public int getSoLuongVePhoThon() {
+    public int getSoLuongVePhoThong() {
         return economySeats - soldEconomTickets;
     }
 
