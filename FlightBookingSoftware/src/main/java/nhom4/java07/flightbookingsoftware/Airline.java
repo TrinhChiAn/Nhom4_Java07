@@ -123,47 +123,49 @@ public class Airline {
     public void setFilteredFlightsarrival(ArrayList<Flight> filteredFlightsarrival) {
         this.filteredFlightsarrival = filteredFlightsarrival;
     }
-    
-    
-    
+
     //==================================================================================
     //Lọc các chuyến bay theo ngày
-    public void filterFlightsByDate(LocalDateTime date) {
-         flightsbyDate = new ArrayList<>();
+    public ArrayList<Flight> filterFlightsByDate(LocalDateTime A) {
+        flightsbyDate = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if (flight.getDeparture().equals(date)) {
+            if ((flight.getDeparture().equals(A.getDayOfYear())) && (flight.getDeparture().equals(A.getMonth())) && (flight.getDeparture().equals(A.getYear()))) {
                 flightsbyDate.add(flight);
             }
         }
+        return flightsbyDate;
     }
 
     //Lọc các chuyến bay theo giờ 
-    public void filterFlightsByTime(LocalDateTime time) {
+    public ArrayList<Flight> filterFlightsByTime(LocalDateTime B) {
         flightsbyTime = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if (flight.getDeparture().equals(time)) {
+            if ((flight.getDeparture().equals(B.getDayOfYear())) && (flight.getDeparture().equals(B.getMonth())) && (flight.getDeparture().equals(B.getYear()))) {
                 flightsbyTime.add(flight);
             }
         }
+        return flightsbyTime;
     }
 
     //Lọc các chuyến bao theo thời gian đến và thời gian đi
-    public void filterFlightD() { //Lọc các chuyến bay đi
+    public ArrayList<Flight> filterFlightD() { //Lọc các chuyến bay đi
         filteredFlightsdepartune = new ArrayList<>();
         for (Flight flight : flightslist) {
             if (flight.getDeparturetime().isEqual((ChronoLocalDateTime<?>) filteredFlightsdepartune)) {
                 filteredFlightsdepartune.add(flight);
             }
         }
+        return filteredFlightsdepartune;
     }
 
-    public void filterFlightV() { //Lọc các chuyến bay về
-         filteredFlightsarrival = new ArrayList<>();
+    public ArrayList<Flight> filterFlightV() { //Lọc các chuyến bay về
+        filteredFlightsarrival = new ArrayList<>();
         for (Flight flight : flightslist) {
             if (flight.getArrivalTime().isEqual((ChronoLocalDateTime<?>) filteredFlightsarrival)) {
                 filteredFlightsarrival.add(flight);
             }
         }
+        return filteredFlightsarrival;
     }
 
     //======================================================================================================
@@ -183,67 +185,35 @@ public class Airline {
     }
 
     //======================================================================================================
-    //Thu nhập hãng hàng không(theo thang va theo nam)
-    public double revenueairlien(ArrayList<Flight> flightslist, ArrayList<Ticket> ticketlsit, int year, int month) {
+    //Thu nhập hãng hàng không theo nam
+    public double revenueairlienYear(ArrayList<Flight> flightslist, int year) {
         double revenue = 0; // Thu nhap
+        Flight flights = new Flight();
         for (Flight flight : flightslist) {
-                LocalDate departureDate = flight.getDeparturetime().toLocalDate();
-                if (departureDate.getYear() == year) {
-                    revenue += flight.getSoldBusinessTickets()*flight.getBussinessTicketPrice() + flight.getSoldEconomTickets()*flight.getEconomyTicketPrice();
-                } else if (departureDate.getMonthValue() == month) {
-                     revenue += flight.getSoldBusinessTickets()*flight.getBussinessTicketPrice() + flight.getSoldEconomTickets()*flight.getEconomyTicketPrice();
-                }
-            }
+            LocalDate departureDate = flight.getDeparturetime().toLocalDate();
+            if (departureDate.getYear() == year) {
+                flights.doanhThuChuyenBay();
+            }           
+        }
         return revenue;
     }
-
-    //===========================================================================================================
-    //Điền thông tin của các hãng máy bay
-    public void inputInfoairline(Scanner sc) {
-
-        System.out.print("Enter airline code: ");
-        airlineCode = sc.nextLine();
-
-        System.out.print("Enter airline name: ");
-        airlineName = sc.nextLine();
-
-        System.out.print("Enter aircraft count: ");
-        aircraftCount = Integer.parseInt(sc.nextLine());
-
-        aircraftNumbers = new ArrayList<>();
-        for (int i = 0; i < aircraftCount; i++) {
-            System.out.print("Enter aircraft number " + (i + 1) + ": ");
-            String aircraftNumber = sc.nextLine();
-            aircraftNumbers.add(aircraftNumber);
-
+        //Thu nhập hãng hàng không theo nam departureDate.getMonthValue() == month
+public double revenueairlienMonth(ArrayList<Flight> flightslist, int month) {
+        double revenue = 0; // Thu nhap
+        Flight flights = new Flight();
+        for (Flight flight : flightslist) {
+            LocalDate departureDate = flight.getDeparturetime().toLocalDate();
+            if (departureDate.getMonthValue() == month) {
+                flights.doanhThuChuyenBay();
+            }
         }
-
+        return revenue;
     }
-
     //===========================================================================================================================
     // show thông tin các hãng máy bay
-    public void showinfoInfoairline() {
-        System.out.println("=============Thông tin hãng máy bay==================");
-        System.out.println("Airline Code: " + airlineCode);
-        System.out.println("Airline Name: " + airlineName);
-        System.out.println("Aircraft Count: " + aircraftCount);
-        System.out.println("Aircraft Numbers: " + aircraftNumbers);
-    }
 
-//=============================================================================================================
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Airline airline = new Airline();
-
-        System.out.println("Enter airline count: ");
-        int airlineCount = sc.nextInt();
-        sc.nextLine();
-        for (int i = 0; i < airlineCount; i++) {
-            System.out.println("Airline number " + (i + 1) + ":");
-            airline.inputInfoairline(sc);
-            airline.showinfoInfoairline();
-
-        }
-
+    @Override
+    public String toString() {
+        return "Airline{" + "airlineCode=" + airlineCode + ", airlineName=" + airlineName + ", aircraftCount=" + aircraftCount + ", aircraftNumbers=" + aircraftNumbers + ", filteredFlightsarrival=" + filteredFlightsarrival + '}';
     }
 }
