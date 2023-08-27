@@ -31,7 +31,7 @@ public class Flight { // chuyến bay
     public Flight() {
 
     }
-
+    
     public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldEconomTickets, int soldBusinessTickets, double giaVePhoThong, double giaVeThuongGia, ArrayList listPassenger, ArrayList listTicket) {
 
         IdGenerator generator = new IdGenerator();

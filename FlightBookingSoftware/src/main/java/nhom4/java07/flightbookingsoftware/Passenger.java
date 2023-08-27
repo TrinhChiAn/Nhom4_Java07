@@ -54,5 +54,10 @@ public class Passenger implements Comparable<Passenger>{        // Hành khách
         String[] str2 = o.getFullName().split(" ");
         return str[str.length].compareTo(str2[str2.length-1]);
     }
-    
+
+    @Override
+    public String toString() {
+        return "Passenger{" + "cccd=" + cccd + ", fullName=" + fullName + ", ticketcode=" + ticketcode + '}';
+    }
+      
 }

@@ -100,39 +100,42 @@ public class Airline {
     }
 
     //Lọc các chuyến bao theo điểm đi và điểm đến
-    public ArrayList<Flight> cacChuyenBayDen() { //Lọc các chuyến bay theo điểm đi
-        ArrayList filteredFlightsdepartune = new ArrayList<>();
+    public ArrayList<Flight> cacChuyenBayDiTu(String str) { //Lọc các chuyến bay theo điểm đi
+        ArrayList list = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if (flight.getDeparturetime().isEqual((ChronoLocalDateTime<?>) filteredFlightsdepartune)) {
-                filteredFlightsdepartune.add(flight);
+            if (flight.getDeparture().equalsIgnoreCase(str)) {
+                list.add(flight);
             }
         }
-        return filteredFlightsdepartune;
+        return list;
     }
 
-    public ArrayList<Flight> filterFlightV() { //Lọc các chuyến bay theo điểm đến
-        ArrayList filteredFlightsarrival = new ArrayList<>();
+    public ArrayList<Flight> cacChuyenBayDen(String str) { //Lọc các chuyến bay theo điểm đi
+        ArrayList list = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if (flight.getArrivalTime().isEqual((ChronoLocalDateTime<?>) filteredFlightsarrival)) {
-                filteredFlightsarrival.add(flight);
+            if (flight.getDestination().equalsIgnoreCase(str)) {
+                list.add(flight);
             }
         }
-        return filteredFlightsarrival;
+        return list;
     }
 
     //======================================================================================================
     //Lấy thông tin chuyến bay
     public void showInfoFlights(String maMayBay) {
-        flightslist = new ArrayList<>();
         for (Flight flights : flightslist) {
-            System.out.println("flightNumber: " + flights.getFlightNumber());
-            System.out.println("Thời gian đến: " + flights.getArrivalTime());
-            System.out.println("Thời gian đi: " + flights.getDeparturetime());
-            System.out.println("Điểm đến: " + flights.getDestination());
-            System.out.println("Điểm đi: " + flights.getDeparture());
-            System.out.println("Cho ngồi: " + flights.getEconomySeats() + flights.getBusinessSeats());
-            System.out.println("Cho ngồi thường: " + flights.getEconomySeats());
-            System.out.println("Cho ngồi hạng thương gia: " + flights.getBusinessSeats());
+            if (flights.getFlightNumber().equals(maMayBay)) {
+                System.out.println("flightNumber: " + flights.getFlightNumber());
+                System.out.println("Thời gian đến: " + flights.getArrivalTime());
+                System.out.println("Thời gian đi: " + flights.getDeparturetime());
+                System.out.println("Điểm đến: " + flights.getDestination());
+                System.out.println("Điểm đi: " + flights.getDeparture());
+                System.out.println("Cho ngồi: " + flights.getEconomySeats() + flights.getBusinessSeats());
+                System.out.println("Cho ngồi thường: " + flights.getEconomySeats());
+                System.out.println("Cho ngồi hạng thương gia: " + flights.getBusinessSeats());
+                System.out.println("Cho ngoi thuong con lai: "+flights.getSoLuongVePhoThong());
+                System.out.println("Cho ngoi thuong gia con lai: "+flights.getSoLuongVeThuongGia());
+            }
         }
     }
 
@@ -140,11 +143,10 @@ public class Airline {
     //Thu nhập hãng hàng không theo nam
     public double revenueairlienYear(ArrayList<Flight> flightslist, int year) {
         double revenue = 0; // Thu nhap
-        Flight flights = new Flight();
         for (Flight flight : flightslist) {
             LocalDate departureDate = flight.getDeparturetime().toLocalDate();
             if (departureDate.getYear() == year) {
-                revenue += flights.doanhThuChuyenBay();
+                revenue += flight.doanhThuChuyenBay();
             }
         }
         return revenue;
@@ -153,18 +155,15 @@ public class Airline {
 
     public double revenueairlienMonth(int month, int year) {
         double revenue = 0; // Thu nhap
-        Flight flights = new Flight();
         for (Flight flight : flightslist) {
-            LocalDate departureDate = flight.getDeparturetime().toLocalDate();
-            if (departureDate.getMonthValue() == month && departureDate.getYear() == year) {
-                revenue += flights.doanhThuChuyenBay();
+            if (flight.getDeparturetime().getMonthValue() == month && flight.getDeparturetime().getYear() == year) {
+                revenue += flight.doanhThuChuyenBay();
             }
         }
         return revenue;
     }
     //===========================================================================================================================
     // show thông tin các hãng máy bay
-
     @Override
     public String toString() {
         return "Airline{" + "airlineCode=" + airlineCode + ", airlineName=" + airlineName + ", aircraftCount=" + aircraftCount + ", aircraftNumbers=" + aircraftNumbers + '}';

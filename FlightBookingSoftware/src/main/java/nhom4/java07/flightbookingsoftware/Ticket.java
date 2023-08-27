@@ -88,5 +88,10 @@ public class Ticket {  // vé
         this.seatClass = seatClass;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" + "ticketCode=" + ticketCode + ", flightNumber=" + flightNumber + ", departure=" + departure + ", destination=" + destination + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", seatClass=" + seatClass + '}';
+    }
+    
 }
 
