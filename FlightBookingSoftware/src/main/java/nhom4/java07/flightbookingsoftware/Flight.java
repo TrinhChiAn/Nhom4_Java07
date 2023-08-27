@@ -23,16 +23,16 @@ public class Flight { // chuyến bay
     private int economySeats; // số lượng chỗ ngồi hạng thường
     private int soldBusinessTickets; // số lượng vé thương gia đã bán ra
     private int soldEconomTickets; // số lượng vé phổ thông đã bán ra
-    private int EconomyFare;
-    private int BusinessFare;
+    private double giaVePhoThong;
+    private double giaVeThuongGia;
     private ArrayList<Passenger> listPassenger; // danh sách các hành khách trên chuyến bay
+    private ArrayList<Ticket> listTicktet; // danh sach vé
 
     public Flight() {
-        
+
     }
 
-
-    public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, double economyTicketPrice, double bussinessTicketPrice, int soldEconomTickets, int soldBusinessTickets) {
+    public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldEconomTickets, int soldBusinessTickets, double giaVePhoThong, double giaVeThuongGia, ArrayList listPassenger, ArrayList listTicket) {
 
         IdGenerator generator = new IdGenerator();
         generator.init("FlyN", "", n);
@@ -44,12 +44,12 @@ public class Flight { // chuyến bay
         this.arrivalTime = arrivalTime;
         this.businessSeats = businessSeats;
         this.economySeats = economySeats;
-
-        this.economyTicketPrice = economyTicketPrice;
-        this.bussinessTicketPrice = bussinessTicketPrice;
         this.soldBusinessTickets = soldBusinessTickets;
         this.soldEconomTickets = soldEconomTickets;
-
+        this.listPassenger = listPassenger;
+        this.listTicktet = listTicket;
+        this.giaVePhoThong = giaVePhoThong;
+        this.giaVeThuongGia = giaVeThuongGia;
     }
 
     public int getSoLuongVePhoThong() {
@@ -59,7 +59,7 @@ public class Flight { // chuyến bay
     public int getSoLuongVeThuongGia() {
         return businessSeats - soldBusinessTickets;
     }
-
+//====================================================================================================================
     public String getFlightNumber() {
         return flightNumber;
     }
@@ -147,38 +147,50 @@ public class Flight { // chuyến bay
     public void setListPassenger(ArrayList<Passenger> listPassenger) {
         this.listPassenger = listPassenger;
     }
- public double statisticize_turnOver(Flight[] fl, int choose, int option) {
-        double turnOver = 0;
 
-        for (Flight flight : fl) {
-            if (choose == 1) { // tinh doanh thu theo thang
-                if (flight.getArrivalTime().getMonth().getValue() == option) {
-                    turnOver += flight.soldEconomTickets() * flight.getEconomyFare()
-                            + flight.getUsedBusinessSeats() * flight.getBusinessFare();
-                }
-            } else if (choose == 2) { // tinh doanh thu theo nam
-                if (flight.getArrivalTime().getYear() == option) {
-                    turnOver += flight.getUsedEconomySeats() * flight.getEconomyFare()
-                            + flight.getUsedBusinessSeats() * flight.getBusinessFare();
-                }
-            }
-        }
-        return turnOver;
+    public ArrayList<Ticket> getListTicktet() {
+        return listTicktet;
     }
 
-    public int getEconomyFare() {
-        return EconomyFare;
+    public void setListTicktet(ArrayList<Ticket> listTicktet) {
+        this.listTicktet = listTicktet;
     }
 
-    public void setEconomyFare(int EconomyFare) {
-        this.EconomyFare = EconomyFare;
+    public double getGiaVePhoThong() {
+        return giaVePhoThong;
     }
 
-    public int getBusinessFare() {
-        return BusinessFare;
+    public void setGiaVePhoThong(double giaVePhoThong) {
+        this.giaVePhoThong = giaVePhoThong;
     }
 
-    public void setBusinessFare(int BusinessFare) {
-        this.BusinessFare = BusinessFare;
+    public double getGiaVeThuongGia() {
+        return giaVeThuongGia;
     }
+
+    public void setGiaVeThuongGia(double giaVeThuongGia) {
+        this.giaVeThuongGia = giaVeThuongGia;
+    }
+//========================================================================================================
+    public boolean isConTrong(){
+        return !((businessSeats+economySeats-soldBusinessTickets-soldEconomTickets)==0);
+    }
+    
+    public double doanhThuChuyenBay() {
+        return soldBusinessTickets * giaVeThuongGia + soldEconomTickets * giaVePhoThong;
+    }
+
+    public void them1Ve(Ticket ticket) {
+        listTicktet.add(ticket);
+    }
+    public void xoa1Ve(Ticket ticket){
+        listTicktet.remove(ticket);
+    }
+    public void them1HanhKhach(Passenger passenger){
+        listPassenger.add(passenger);
+    }
+    public void xoa1HanhKhach(Passenger passenger){
+        listPassenger.remove(passenger);
+    }
+    
 }

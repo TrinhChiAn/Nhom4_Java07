@@ -35,7 +35,9 @@ public class FlightManagementSystem {
                 generator.init("TK", "", 1);
                 maMayBay.add(generator.generate());
             }
-            Airlines.add(new Airline(Airlines.size()+1,tenHang,soLuongMayBay,maMayBay));
+            ArrayList<Flight> listFlight = new ArrayList<>();
+            // làm việc với file;
+            Airlines.add(new Airline(Airlines.size()+1,tenHang,soLuongMayBay,maMayBay,listFlight));
         } catch (Exception e) {
             System.out.println("Ban da nhap sai gia tri.");
         }

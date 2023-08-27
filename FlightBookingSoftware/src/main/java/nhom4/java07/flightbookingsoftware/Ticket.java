@@ -14,12 +14,12 @@ public class Ticket {  // vé
     private LocalDateTime departureTime; // thoi gian đi
     private LocalDateTime arrivalTime; // thời gian đến 
     private String seatClass; // Hạng vé( phổ thông hoặc thương gia)
-    private double ticketPrice; // giá vé 
+    
 
     public Ticket() {
     }
 
-    public Ticket(int n, String flightNumber, String departure, String destination, LocalDateTime departureTime, LocalDateTime arrivalTime, String seatClass, double ticketPrice) {
+    public Ticket(int n, String flightNumber, String departure, String destination, LocalDateTime departureTime, LocalDateTime arrivalTime, String seatClass) {
         IdGenerator generator = new IdGenerator();
         generator.init("TK", "", n);
         this.ticketCode = generator.generate();
@@ -29,7 +29,7 @@ public class Ticket {  // vé
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.seatClass = seatClass;
-        this.ticketPrice = ticketPrice;
+        
     }
 
     public String getTicketCode() {
@@ -88,13 +88,5 @@ public class Ticket {  // vé
         this.seatClass = seatClass;
     }
 
-    public double getTicketPrice() {
-        return ticketPrice;
-    }
-
-    public void setTicketPrice(double ticketPrice) {
-        this.ticketPrice = ticketPrice;
-    }
-    
 }
 
