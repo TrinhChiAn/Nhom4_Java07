@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class FlightManagementSystem {
 
     ArrayList<Airline> Airlines;
-    
     ArrayList<Ticket> Tickets;
     ArrayList<Flight> Flights;
 
@@ -20,21 +19,29 @@ public class FlightManagementSystem {
     public FlightManagementSystem() {
     }
 
-//    public void xoa1VeMayBay(Scanner sc) {
-//        System.out.print("Nhap vao ma ve: ");
-//        String maVe = sc.nextLine();
-//        for(int k=Tickets.size()-1; k>=0; k--){
-//            if(Tickets.get(k).getTicketCode().equals(maVe)){
-//                for(int i=0; i<=Airlines.size()-1; i++){
-//                    if(Airlines.get(i).getAirlineCode().equals(Tickets.get(k).getAirlineCode())){
-//                        for(int j=Airlines.get(i).getFlightslist().size()-1; j>=0; j--){
-//                            
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    public void xoa1VeMayBay(Scanner sc) {
+        sc.nextLine();
+        System.out.print("Nhap vao ma ve: ");
+        String maVe = sc.nextLine();
+        for (int k = Tickets.size() - 1; k >= 0; k--) {
+            if (Tickets.get(k).getTicketCode().equals(maVe)) {
+                for (int i = 0; i <= Airlines.size() - 1; i++) {
+                    if (Airlines.get(i).getAirlineCode().equals(Tickets.get(k).getAirlineCode())) {
+                        for (int j = Airlines.get(i).getFlightslist().size() - 1; j >= 0; j--) {
+                            if (Airlines.get(i).getFlightslist().get(j).getFlightNumber().equals(Tickets.get(k).getFlightNumber())) {
+                                Airlines.get(i).getFlightslist().get(j).getListTicktet().remove(Tickets.get(k));
+                                Tickets.get(k).setTicketCode("0");
+                                return;
+                            }
+                        }
+                        return;
+                    }
+                }
+                return;
+            }
+        }
+        System.out.println("Khong tim thay ma ve");
+    }
 
     public void them1VeMayBay(Scanner sc) {
         try {
@@ -57,10 +64,10 @@ public class FlightManagementSystem {
                                         loaiVe = sc.nextInt();
                                     } while (loaiVe == 1 || loaiVe == 2);
                                     sc.nextLine();
-                                    Airlines.get(i).getFlightslist().get(k).getListTicktet().add(new Ticket(Tickets.size() + 1, maChuyenBay, Airlines.get(i).getFlightslist().get(k).getDeparture(), Airlines.get(i).getFlightslist().get(k).getDestination(), Airlines.get(i).getFlightslist().get(k).getDeparturetime(), Airlines.get(i).getFlightslist().get(k).getArrivalTime(), loaiVe,maHang));
+                                    Airlines.get(i).getFlightslist().get(k).getListTicktet().add(new Ticket(Tickets.size() + 1, maChuyenBay, Airlines.get(i).getFlightslist().get(k).getDeparture(), Airlines.get(i).getFlightslist().get(k).getDestination(), Airlines.get(i).getFlightslist().get(k).getDeparturetime(), Airlines.get(i).getFlightslist().get(k).getArrivalTime(), loaiVe, maHang));
                                     System.out.print("Nhap vao ho va ten hanh khach: ");
-                                    Airlines.get(i).getFlightslist().get(k).getListPassenger().add(new Passenger(Tickets.size()+1,sc.nextLine(),Airlines.get(i).getFlightslist().get(k).getListTicktet().get(Airlines.get(i).getFlightslist().get(k).getListTicktet().size()-1).getTicketCode()));
-                                    Tickets.add(new Ticket(Tickets.size() + 1, maChuyenBay, Airlines.get(i).getFlightslist().get(k).getDeparture(), Airlines.get(i).getFlightslist().get(k).getDestination(), Airlines.get(i).getFlightslist().get(k).getDeparturetime(), Airlines.get(i).getFlightslist().get(k).getArrivalTime(), loaiVe,maHang));
+                                    Airlines.get(i).getFlightslist().get(k).getListPassenger().add(new Passenger(Tickets.size() + 1, sc.nextLine(), Airlines.get(i).getFlightslist().get(k).getListTicktet().get(Airlines.get(i).getFlightslist().get(k).getListTicktet().size() - 1).getTicketCode()));
+                                    Tickets.add(new Ticket(Tickets.size() + 1, maChuyenBay, Airlines.get(i).getFlightslist().get(k).getDeparture(), Airlines.get(i).getFlightslist().get(k).getDestination(), Airlines.get(i).getFlightslist().get(k).getDeparturetime(), Airlines.get(i).getFlightslist().get(k).getArrivalTime(), loaiVe, maHang));
                                     if (loaiVe == 1) {
                                         Airlines.get(i).getFlightslist().get(k).setBusinessSeats(Airlines.get(i).getFlightslist().get(k).getBusinessSeats() + 1);
                                     } else {
@@ -144,7 +151,6 @@ public class FlightManagementSystem {
         try {
             sc.nextLine();
             System.out.print("Nhap vao ma Chuyen bay: ");
-            sc.nextLine();
             String maChuyenBay = sc.nextLine();
             for (int i = Flights.size() - 1; i >= 0; i--) {
                 if (maChuyenBay.equals(Flights.get(i).getFlightNumber())) {
@@ -168,6 +174,7 @@ public class FlightManagementSystem {
 
     public void addAirline(Scanner sc) {
         try {
+            sc.nextLine();
             System.out.print("Nhap vao ten hang:");
             String tenHang = sc.nextLine();
             System.out.print("Nhap vao so luong may bay cua hang:");
@@ -189,11 +196,12 @@ public class FlightManagementSystem {
     }
 
     public void removeAirline(Scanner sc) {
+        sc.nextLine();
         System.out.print("Nhap vao ma hang muon xoa");
         String maHang = sc.nextLine();
         for (int i = 0; i < Airlines.size(); i++) {
             if (Airlines.get(i).getAirlineCode().equals(maHang)) {
-                Airlines.remove(i);
+                Airlines.get(i).setAirlineCode("0");
                 return;
             }
         }

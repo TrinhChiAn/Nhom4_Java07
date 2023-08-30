@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Tuan Anh
  */
-public class Airline {
+public class Airline implements Comparable<Airline> {
 
     private String airlineCode; // mã hãng
     private String airlineName;  // tên hãng
@@ -103,17 +103,17 @@ public class Airline {
     public ArrayList<Flight> cacChuyenBayDiTu(String str) { //Lọc các chuyến bay theo điểm đi
         ArrayList list = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if (flight.getDeparture().equalsIgnoreCase(str)) {
+            if (flight.getDeparture().equalsIgnoreCase(str) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
                 list.add(flight);
             }
         }
         return list;
     }
 
-    public ArrayList<Flight> cacChuyenBayDen(String str) { //Lọc các chuyến bay theo điểm đi
+    public ArrayList<Flight> cacChuyenBayDen(String str) { //Lọc các chuyến bay theo điểm đến
         ArrayList list = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if (flight.getDestination().equalsIgnoreCase(str)) {
+            if (flight.getDestination().equalsIgnoreCase(str) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
                 list.add(flight);
             }
         }
@@ -133,8 +133,8 @@ public class Airline {
                 System.out.println("Cho ngồi: " + flights.getEconomySeats() + flights.getBusinessSeats());
                 System.out.println("Cho ngồi thường: " + flights.getEconomySeats());
                 System.out.println("Cho ngồi hạng thương gia: " + flights.getBusinessSeats());
-                System.out.println("Cho ngoi thuong con lai: "+flights.getSoLuongVePhoThong());
-                System.out.println("Cho ngoi thuong gia con lai: "+flights.getSoLuongVeThuongGia());
+                System.out.println("Cho ngoi thuong con lai: " + flights.getSoLuongVePhoThong());
+                System.out.println("Cho ngoi thuong gia con lai: " + flights.getSoLuongVeThuongGia());
             }
         }
     }
@@ -162,10 +162,16 @@ public class Airline {
         }
         return revenue;
     }
+
     //===========================================================================================================================
     // show thông tin các hãng máy bay
     @Override
     public String toString() {
         return "Airline{" + "airlineCode=" + airlineCode + ", airlineName=" + airlineName + ", aircraftCount=" + aircraftCount + ", aircraftNumbers=" + aircraftNumbers + '}';
+    }
+
+    @Override
+    public int compareTo(Airline o) {
+        return this.airlineName.toUpperCase().compareTo(o.getAirlineName().toUpperCase());
     }
 }
