@@ -8,40 +8,32 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Tuan Anh
  */
-public class Airline {
+public class Airline implements Comparable<Airline> {
 
     private String airlineCode; // mã hãng
     private String airlineName;  // tên hãng
     private int aircraftCount; // số lượng máy bay
     private ArrayList<String> aircraftNumbers; //Danh sách máy bay theo số hiệu
     private ArrayList<Flight> flightslist; // Danh sách cách chuyến bay
-    private ArrayList<Flight> flightsbyTime; //Danh sách chuyến bay theo giờ
-    private ArrayList<Flight> flightsbyDate;//Danh sách chuyến bay theo ngày
-    private Iterable<Ticket> ticketlist; //Danh sach ve
-    private ArrayList<Flight> filteredFlightsdepartune;
-    private ArrayList<Flight> filteredFlightsarrival = new ArrayList<>();
-    //=================================================================================
 
+    //=================================================================================
     public Airline() {
     }
 
-    public Airline(String airlineCode, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers, ArrayList<Flight> flightslist, ArrayList<Flight> flightsbyTime, ArrayList<Flight> flightsbyDate, Iterable<Ticket> ticketlist, ArrayList<Flight> filteredFlightsdepartune) {
-        this.airlineCode = airlineCode;
+    public Airline(int n, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers, ArrayList<Flight> flights) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("AIR", "", n);
+        this.airlineCode = generator.generate();
         this.airlineName = airlineName;
         this.aircraftCount = aircraftCount;
         this.aircraftNumbers = aircraftNumbers;
-        this.flightslist = flightslist;
-        this.flightsbyTime = flightsbyTime;
-        this.flightsbyDate = flightsbyDate;
-        this.ticketlist = ticketlist;
-        this.filteredFlightsdepartune = filteredFlightsdepartune;
+        this.flightslist = flights;
+
     }
 
     public String getAirlineCode() {
@@ -84,52 +76,12 @@ public class Airline {
         this.flightslist = flightslist;
     }
 
-    public ArrayList<Flight> getFlightsbyTime() {
-        return flightsbyTime;
-    }
-
-    public void setFlightsbyTime(ArrayList<Flight> flightsbyTime) {
-        this.flightsbyTime = flightsbyTime;
-    }
-
-    public ArrayList<Flight> getFlightsbyDate() {
-        return flightsbyDate;
-    }
-
-    public void setFlightsbyDate(ArrayList<Flight> flightsbyDate) {
-        this.flightsbyDate = flightsbyDate;
-    }
-
-    public Iterable<Ticket> getTicketlist() {
-        return ticketlist;
-    }
-
-    public void setTicketlist(Iterable<Ticket> ticketlist) {
-        this.ticketlist = ticketlist;
-    }
-
-    public ArrayList<Flight> getFilteredFlightsdepartune() {
-        return filteredFlightsdepartune;
-    }
-
-    public void setFilteredFlightsdepartune(ArrayList<Flight> filteredFlightsdepartune) {
-        this.filteredFlightsdepartune = filteredFlightsdepartune;
-    }
-
-    public ArrayList<Flight> getFilteredFlightsarrival() {
-        return filteredFlightsarrival;
-    }
-
-    public void setFilteredFlightsarrival(ArrayList<Flight> filteredFlightsarrival) {
-        this.filteredFlightsarrival = filteredFlightsarrival;
-    }
-
     //==================================================================================
     //Lọc các chuyến bay theo ngày
     public ArrayList<Flight> filterFlightsByDate(LocalDateTime A) {
-        flightsbyDate = new ArrayList<>();
+        ArrayList flightsbyDate = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if ((flight.getDeparture().equals(A.getDayOfYear())) && (flight.getDeparture().equals(A.getMonth())) && (flight.getDeparture().equals(A.getYear()))) {
+            if (A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth()) {
                 flightsbyDate.add(flight);
             }
         }
@@ -137,50 +89,53 @@ public class Airline {
     }
 
     //Lọc các chuyến bay theo giờ 
-    public ArrayList<Flight> filterFlightsByTime(LocalDateTime B) {
-        flightsbyTime = new ArrayList<>();
+    public ArrayList<Flight> filterFlightsByTime(LocalDateTime A) {
+        ArrayList flightsbyTime = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if ((flight.getDeparture().equals(B.getDayOfYear())) && (flight.getDeparture().equals(B.getMonth())) && (flight.getDeparture().equals(B.getYear()))) {
+            if (A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth() && A.getHour() == flight.getDeparturetime().getHour()) {
                 flightsbyTime.add(flight);
             }
         }
         return flightsbyTime;
     }
 
-    //Lọc các chuyến bao theo thời gian đến và thời gian đi
-    public ArrayList<Flight> filterFlightD() { //Lọc các chuyến bay đi
-        filteredFlightsdepartune = new ArrayList<>();
+    //Lọc các chuyến bao theo điểm đi và điểm đến
+    public ArrayList<Flight> cacChuyenBayDiTu(String str) { //Lọc các chuyến bay theo điểm đi
+        ArrayList list = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if (flight.getDeparturetime().isEqual((ChronoLocalDateTime<?>) filteredFlightsdepartune)) {
-                filteredFlightsdepartune.add(flight);
+            if (flight.getDeparture().equalsIgnoreCase(str) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
+                list.add(flight);
             }
         }
-        return filteredFlightsdepartune;
+        return list;
     }
 
-    public ArrayList<Flight> filterFlightV() { //Lọc các chuyến bay về
-        filteredFlightsarrival = new ArrayList<>();
+    public ArrayList<Flight> cacChuyenBayDen(String str) { //Lọc các chuyến bay theo điểm đến
+        ArrayList list = new ArrayList<>();
         for (Flight flight : flightslist) {
-            if (flight.getArrivalTime().isEqual((ChronoLocalDateTime<?>) filteredFlightsarrival)) {
-                filteredFlightsarrival.add(flight);
+            if (flight.getDestination().equalsIgnoreCase(str) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
+                list.add(flight);
             }
         }
-        return filteredFlightsarrival;
+        return list;
     }
 
     //======================================================================================================
     //Lấy thông tin chuyến bay
-    public void showInfoFlights() {
-        flightslist = new ArrayList<>();
+    public void showInfoFlights(String maMayBay) {
         for (Flight flights : flightslist) {
-            System.out.println("flightNumber: " + flights.getFlightNumber());
-            System.out.println("Thời gian đến: " + flights.getArrivalTime());
-            System.out.println("Thời gian đi: " + flights.getDeparturetime());
-            System.out.println("Điểm đến: " + flights.getDestination());
-            System.out.println("Điểm đi: " + flights.getDeparture());
-            System.out.println("Cho ngồi: " + flights.getEconomySeats() + flights.getBusinessSeats());
-            System.out.println("Cho ngồi thường: " + flights.getEconomySeats());
-            System.out.println("Cho ngồi hạng thương gia: " + flights.getBusinessSeats());
+            if (flights.getFlightNumber().equals(maMayBay)) {
+                System.out.println("flightNumber: " + flights.getFlightNumber());
+                System.out.println("Thời gian đến: " + flights.getArrivalTime());
+                System.out.println("Thời gian đi: " + flights.getDeparturetime());
+                System.out.println("Điểm đến: " + flights.getDestination());
+                System.out.println("Điểm đi: " + flights.getDeparture());
+                System.out.println("Cho ngồi: " + flights.getEconomySeats() + flights.getBusinessSeats());
+                System.out.println("Cho ngồi thường: " + flights.getEconomySeats());
+                System.out.println("Cho ngồi hạng thương gia: " + flights.getBusinessSeats());
+                System.out.println("Cho ngoi thuong con lai: " + flights.getSoLuongVePhoThong());
+                System.out.println("Cho ngoi thuong gia con lai: " + flights.getSoLuongVeThuongGia());
+            }
         }
     }
 
@@ -188,32 +143,35 @@ public class Airline {
     //Thu nhập hãng hàng không theo nam
     public double revenueairlienYear(ArrayList<Flight> flightslist, int year) {
         double revenue = 0; // Thu nhap
-        Flight flights = new Flight();
         for (Flight flight : flightslist) {
             LocalDate departureDate = flight.getDeparturetime().toLocalDate();
             if (departureDate.getYear() == year) {
-                flights.doanhThuChuyenBay();
-            }           
-        }
-        return revenue;
-    }
-        //Thu nhập hãng hàng không theo nam departureDate.getMonthValue() == month
-public double revenueairlienMonth(ArrayList<Flight> flightslist, int month) {
-        double revenue = 0; // Thu nhap
-        Flight flights = new Flight();
-        for (Flight flight : flightslist) {
-            LocalDate departureDate = flight.getDeparturetime().toLocalDate();
-            if (departureDate.getMonthValue() == month) {
-                flights.doanhThuChuyenBay();
+                revenue += flight.doanhThuChuyenBay();
             }
         }
         return revenue;
     }
+    //Thu nhập hãng hàng không theo nam departureDate.getMonthValue() == month
+
+    public double revenueairlienMonth(int month, int year) {
+        double revenue = 0; // Thu nhap
+        for (Flight flight : flightslist) {
+            if (flight.getDeparturetime().getMonthValue() == month && flight.getDeparturetime().getYear() == year) {
+                revenue += flight.doanhThuChuyenBay();
+            }
+        }
+        return revenue;
+    }
+
     //===========================================================================================================================
     // show thông tin các hãng máy bay
-
     @Override
     public String toString() {
-        return "Airline{" + "airlineCode=" + airlineCode + ", airlineName=" + airlineName + ", aircraftCount=" + aircraftCount + ", aircraftNumbers=" + aircraftNumbers + ", filteredFlightsarrival=" + filteredFlightsarrival + '}';
+        return "Airline{" + "airlineCode=" + airlineCode + ", airlineName=" + airlineName + ", aircraftCount=" + aircraftCount + ", aircraftNumbers=" + aircraftNumbers + '}';
+    }
+
+    @Override
+    public int compareTo(Airline o) {
+        return this.airlineName.toUpperCase().compareTo(o.getAirlineName().toUpperCase());
     }
 }
