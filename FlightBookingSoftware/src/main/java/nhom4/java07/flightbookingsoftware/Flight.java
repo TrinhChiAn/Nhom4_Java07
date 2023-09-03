@@ -144,24 +144,6 @@ public class Flight { // chuyến bay
     public void setListPassenger(ArrayList<Passenger> listPassenger) {
         this.listPassenger = listPassenger;
     }
- public double statisticize_turnOver(Flight[] fl, int choose, int option) {
-        double turnOver = 0;
-
-        for (Flight flight : fl) {
-            if (choose == 1) { // tinh doanh thu theo thang
-                if (flight.getArrivalTime().getMonth().getValue() == option) {
-                    turnOver += flight.soldEconomTickets() * flight.getEconomyFare()
-                            + flight.getUsedBusinessSeats() * flight.getBusinessFare();
-                }
-            } else if (choose == 2) { // tinh doanh thu theo nam
-                if (flight.getArrivalTime().getYear() == option) {
-                    turnOver += flight.getUsedEconomySeats() * flight.getEconomyFare()
-                            + flight.getUsedBusinessSeats() * flight.getBusinessFare();
-                }
-            }
-        }
-        return turnOver;
-    }
 
     public int getEconomyFare() {
         return EconomyFare;
@@ -177,5 +159,45 @@ public class Flight { // chuyến bay
 
     public void setBusinessFare(int BusinessFare) {
         this.BusinessFare = BusinessFare;
+    }
+
+    public double doanhThu(Flight[] fl, int choose, int option) {
+        double turnOver = 0;
+
+        for (Flight flight : fl) {
+            if (choose == 1) { // tinh doanh thu theo thang
+                if (flight.getArrivalTime().getMonth().getValue() == option) {
+                    turnOver += flight.getSoldEconomTickets() * flight.getEconomyFare()
+                            + flight.getSoldBusinessTickets() * flight.getBusinessFare();
+                }
+            } else if (choose == 2) { // tinh doanh thu theo nam
+                if (flight.getArrivalTime().getYear() == option) {
+                    turnOver += flight.getSoldEconomTickets() * flight.getEconomyFare()
+                            + flight.getSoldBusinessTickets() * flight.getBusinessFare();
+                }
+            }
+        }
+        return turnOver;
+    }
+
+    public void showTicketClassEcoRemaining(Flight fl) {
+
+        int avaBusiTicket = fl.getSoldBusinessTickets();
+        int totalBusi = fl.getBusinessSeats();
+        System.out.println("So ve hang thuong gia: " + (totalBusi - avaBusiTicket));
+    }
+
+    public void showTicketClassBussRemaining(Flight fl) {
+        int avaEcoTicket = fl.getSoldEconomTickets();
+        int totalEco = fl.getEconomySeats();
+        System.out.println("So ve hang pho thong: " + (totalEco - avaEcoTicket));
+    }
+
+    public void addPassenger(Passenger passenger) {
+        listPassenger.add(passenger);
+    }
+
+    public void removePassenger(Passenger passenger) {
+        listPassenger.remove(passenger);
     }
 }
