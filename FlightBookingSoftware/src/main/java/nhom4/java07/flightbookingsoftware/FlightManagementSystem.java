@@ -1,7 +1,9 @@
 package nhom4.java07.flightbookingsoftware;
 
+import java.lang.reflect.Modifier;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class FlightManagementSystem {
@@ -17,6 +19,30 @@ public class FlightManagementSystem {
     }
 
     public FlightManagementSystem() {
+        Airlines = new ArrayList<>();
+        Tickets = new ArrayList<>();
+        Flights = new ArrayList<>();
+    }
+    // lọc các chuyến bay con trong theo ngay
+    public ArrayList<Flight> filterFlightsByDate(LocalDateTime A) {
+        ArrayList flightsbyDate = new ArrayList<>();
+        for (Flight flight : Flights) {
+            if (flight.isConTrong() && A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth()) {
+                flightsbyDate.add(flight);
+            }
+        }
+        return flightsbyDate;
+    }
+
+    //Lọc các chuyến ocn trong bay theo giờ 
+    public ArrayList<Flight> filterFlightsByTime(LocalDateTime A) {
+        ArrayList flightsbyTime = new ArrayList<>();
+        for (Flight flight : Flights) {
+            if (flight.isConTrong() && A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth() && A.getHour() == flight.getDeparturetime().getHour()) {
+                flightsbyTime.add(flight);
+            }
+        }
+        return flightsbyTime;
     }
 
     public void xoa1VeMayBay(Scanner sc) {
@@ -86,6 +112,7 @@ public class FlightManagementSystem {
             }
             System.out.println("Khong tim thay ma hang");
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 

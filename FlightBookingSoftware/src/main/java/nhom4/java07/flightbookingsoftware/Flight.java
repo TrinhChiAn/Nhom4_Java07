@@ -6,6 +6,7 @@ package nhom4.java07.flightbookingsoftware;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  **
@@ -29,7 +30,8 @@ public class Flight { // chuyến bay
     private ArrayList<Ticket> listTicktet; // danh sach vé
 
     public Flight() {
-
+        listPassenger = new ArrayList<>();
+        listTicktet = new ArrayList<>();
     }
     
     public Flight(int n, String aircraftNumber, String departure, String destination, LocalDateTime departuretime, LocalDateTime arrivalTime, int businessSeats, int economySeats, int soldEconomTickets, int soldBusinessTickets, double giaVePhoThong, double giaVeThuongGia, ArrayList listPassenger, ArrayList listTicket) {
@@ -179,6 +181,12 @@ public class Flight { // chuyến bay
     public double doanhThuChuyenBay() {
         return soldBusinessTickets * giaVeThuongGia + soldEconomTickets * giaVePhoThong;
     }
+
+    @Override
+    public String toString() {
+        return "Flight{" + "flightNumber=" + flightNumber + ", aircraftNumber=" + aircraftNumber + ", departure=" + departure + ", destination=" + destination + ", departuretime=" + departuretime + ", arrivalTime=" + arrivalTime + ", businessSeats=" + businessSeats + ", economySeats=" + economySeats + ", soldBusinessTickets=" + soldBusinessTickets + ", soldEconomTickets=" + soldEconomTickets + ", giaVePhoThong=" + giaVePhoThong + ", giaVeThuongGia=" + giaVeThuongGia + ", listPassenger=" + listPassenger + ", listTicktet=" + listTicktet + '}';
+    }
+    
 
     public void them1Ve(Ticket ticket) {
         listTicktet.add(ticket);
