@@ -4,6 +4,8 @@
  */
 package nhom4.java07.flightbookingsoftware;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -96,6 +98,12 @@ public class Main {
         System.out.println("2. Doanh thu theo nam");
     }
 
+    static <E> void show(List<E> list) {
+        for (Object item : list) {
+            System.out.println(item);
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         FlightManagementSystem FMS = new FlightManagementSystem();
@@ -117,23 +125,27 @@ public class Main {
                                     int luaChon2 = sc.nextInt();
                                     switch (luaChon2) {
                                         case 1 -> {
-                                            // Them 1 vé máy bay
+                                            FMS.them1VeMayBay(sc);
                                             break;
                                         }
-                                        case 2 -> {
-                                            // Them 1 chuyến bay
+                                        case 2 -> { // Them 1 chuyến bay
+
+                                            FMS.them1ChuyenBay(sc);
                                             break;
                                         }
-                                        case 3 -> {
-                                            // thêm 1 hãng hàng không
+                                        case 3 -> { // thêm 1 hãng hàng không
+
+                                            FMS.addAirline(sc);
                                             break;
                                         }
-                                        case 4 -> {
-                                            // thêm 1 chiếc máy bay
-                                            break;
-                                        }
-                                        case 5 -> {
-                                            // quay về
+//                                        case 4 -> {
+//
+//                                            // thêm 1 chiếc máy bay
+//                                            break;
+//                                        }
+                                        case 5 -> {  // quay về
+
+                                            n2 = false;
                                             break;
                                         }
                                         default -> {
@@ -143,39 +155,40 @@ public class Main {
                                 }
                                 break;
                             }
-                            case 2 -> {
-                                boolean n2 = true;
-                                while (n2) {
-                                    manu1x2();
-                                    int luaChon2 = sc.nextInt();
-                                    switch (luaChon2) {
-                                        case 1 -> {
-                                            // Sua thông tin 1 vé máy bay
-
-                                            break;
-                                        }
-                                        case 2 -> {
-                                            // // Sua thông tin 1 chuyến bay
-
-                                            break;
-                                        }
-                                        case 3 -> {
-                                            // Sua thông tin 1 hãng hàng không
-
-                                            break;
-                                        }
-                                        case 4 -> {
-                                            //Quay về
-                                            break;
-                                        }
-
-                                        default -> {
-                                            System.out.println("Vui long nhap lai");
-                                        }
-                                    }
-                                }
-                                break;
-                            }
+//                            case 2 -> {
+//                                boolean n2 = true;
+//                                while (n2) {
+//                                    manu1x2();
+//                                    int luaChon2 = sc.nextInt();
+//                                    switch (luaChon2) {
+//                                        case 1 -> {
+//                                            // Sua thông tin 1 vé máy bay
+//
+//                                            break;
+//                                        }
+//                                        case 2 -> {
+//                                            // // Sua thông tin 1 chuyến bay
+//
+//                                            break;
+//                                        }
+//                                        case 3 -> {
+//                                            // Sua thông tin 1 hãng hàng không
+//
+//                                            break;
+//                                        }
+//                                        case 4 -> {
+//                                            //Quay về
+//                                            n2 = false;
+//                                            break;
+//                                        }
+//
+//                                        default -> {
+//                                            System.out.println("Vui long nhap lai");
+//                                        }
+//                                    }
+//                                }
+//                                break;
+//                            }
                             case 3 -> {
                                 boolean n2 = true;
                                 while (n2) {
@@ -184,22 +197,27 @@ public class Main {
                                     switch (luaChon2) {
                                         case 1 -> {
                                             // Xoa 1 vé máy bay
+                                            FMS.xoa1VeMayBay(sc);
                                             break;
                                         }
                                         case 2 -> {
                                             // Xóa 1 chuyến bay
+                                            FMS.xoa1ChuyenBay(sc);
                                             break;
                                         }
-                                        case 3 -> {
-                                            // Xóa 1 chiếc máy bay
-                                            break;
-                                        }
+//                                        case 3 -> {
+//
+//                                            // Xóa 1 chiếc máy bay
+//                                            break;
+//                                        }
                                         case 4 -> {
                                             // Xóa 1 hãng hàng khồng
+                                            FMS.removeAirline(sc);
                                             break;
                                         }
                                         case 5 -> {
                                             // quay về
+                                            n2 = false;
                                             break;
                                         }
                                         default -> {
@@ -207,6 +225,12 @@ public class Main {
                                         }
                                     }
                                 }
+                            }
+                            case 4 -> {
+                                n1 = false;
+                            }
+                            default -> {
+                                System.out.println("Vui long nhap lai");
                             }
 
                         }
@@ -227,6 +251,7 @@ public class Main {
                                     int luaChon2 = sc.nextInt();
                                     switch (luaChon2) {
                                         case 1 -> {
+                                            //ArrayList<Flight> list = FMS.filterFlightsByTime();
                                             // theo giờ
                                             break;
                                         }
@@ -235,6 +260,7 @@ public class Main {
                                             break;
                                         }
                                         case 3 -> {
+                                            n2 = false;
                                             //Quay về
                                             break;
                                         }
@@ -262,6 +288,7 @@ public class Main {
                                             break;
                                         }
                                         case 3 -> {
+                                            n2 = false;
                                             //Quay về
                                             break;
                                         }
@@ -274,6 +301,7 @@ public class Main {
                                 break;
                             }
                             case 3 -> {
+                                n1 = false;
                                 //Quay về
                                 break;
                             }
@@ -290,6 +318,7 @@ public class Main {
                     break;
                 }
                 case 4 -> {
+
                     // Danh sách hành khách của một chuyến bay
                     break;
                 }
@@ -308,8 +337,12 @@ public class Main {
                                 break;
                             }
                             case 3 -> {
+                                n1 = false;
                                 // quay về 
                                 break;
+                            }
+                            default -> {
+                                System.out.println("Vui long nhap lai");
                             }
                         }
                     }
@@ -322,26 +355,64 @@ public class Main {
                         int luaChon1 = sc.nextInt();
                         switch (luaChon1) {
                             case 1 -> {
-                                //  theo ngày đi
+                                //  các chuyến bay đi từ
                                 break;
                             }
                             case 2 -> {
-                                // theo ngày đến 
+                                // các chuyến bay hạ cánh tại
                                 break;
                             }
                             case 3 -> {
-                                // quay về 
+                                // các chuyến bay từ và hạ cánh tại
                                 break;
                             }
                             case 4 -> {
-                                
+                                n1 = false;
+                                // quay về
+                                break;
+                            }
+                            default -> {
+                                System.out.println("Vui long nhap lai");
                             }
                         }
                     }
                     break;
                 }
+                case 7 -> {
+                    boolean n1 = true;
+                    while (n1) {
+                        manu7();
+                        int luaChon1 = sc.nextInt();
+                        switch (luaChon1) {
+                            case 1 -> {
+                                //  Theo tháng
+                                break;
+                            }
+                            case 2 -> {
+                                // doanh thu theo năm 
+                                break;
+                            }
+                            case 3 -> {
+                                n1 = false;
+                                // quay về
+                                break;
+                            }
+                            default -> {
+                                System.out.println("Vui long nhap lai");
+                            }
+                        }
+                    }
+                    break;
+                }
+                case 8 -> {
+                    n = false;
+                    break;
+                }
+                default -> {
+                    System.out.println("Ban da nhap sai gia tri");
+                }
+
             }
         }
-
     }
 }

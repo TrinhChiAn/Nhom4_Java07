@@ -6,8 +6,9 @@ package nhom4.java07.flightbookingsoftware;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -23,6 +24,8 @@ public class Airline implements Comparable<Airline> {
 
     //=================================================================================
     public Airline() {
+        aircraftNumbers = new ArrayList<>();
+        flightslist = new ArrayList<>();
     }
 
     public Airline(int n, String airlineName, int aircraftCount, ArrayList<String> aircraftNumbers, ArrayList<Flight> flights) {
@@ -161,6 +164,46 @@ public class Airline implements Comparable<Airline> {
             }
         }
         return revenue;
+    }
+
+    public List<Flight> kiemTraConTrongHangTrongNgay(LocalDateTime A) {
+        ArrayList<Flight> list = filterFlightsByDate(A);
+        ArrayList<Flight> retu = new ArrayList<>();
+        for (Flight item : list) {
+            if (item.isConTrong()) {
+                retu.add(item);
+            }
+        }
+        return retu;
+    }
+
+    public List<Flight> kiemTraConTrongHangTheoGio(LocalDateTime A) {
+        ArrayList<Flight> list = filterFlightsByTime(A);
+        ArrayList<Flight> retur = new ArrayList<>();
+        for (Flight item : list) {
+            if (item.isConTrong()) {
+                retur.add(item);
+            }
+        }
+        return retur;
+    }
+
+    public void Them1ChiecMayBay(Scanner sc) {
+        aircraftCount = aircraftCount++;
+        IdGenerator generator = new IdGenerator();
+        generator.init("TK", "", aircraftNumbers.size());
+        aircraftNumbers.add(generator.generate());
+    }
+    
+    public void xoa1ChiecMayBay(Scanner sc){
+        aircraftCount = aircraftCount--;
+        System.out.print("Nhap vao ma may bay muon xoa");
+        String maMayBay = sc.nextLine();
+        for(int i=0; i<aircraftNumbers.size(); i++){
+            if(aircraftNumbers.get(i)!=null&&aircraftNumbers.get(i).equals(maMayBay )){
+                aircraftNumbers.set(i, null);
+            }
+        }
     }
 
     //===========================================================================================================================
