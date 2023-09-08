@@ -1,10 +1,7 @@
-
 package nhom4.java07.flightbookingsoftware.model;
-
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 
 public class ThongTinChuyenBay {
 
@@ -59,22 +56,22 @@ public class ThongTinChuyenBay {
         sb.append(ThongTinChuyenBay.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("diemXuatPhat");
         sb.append('=');
-        sb.append(((this.diemXuatPhat == null)?"<null>":this.diemXuatPhat));
+        sb.append(((this.diemXuatPhat == null) ? "<null>" : this.diemXuatPhat));
         sb.append(',');
         sb.append("diemDen");
         sb.append('=');
-        sb.append(((this.diemDen == null)?"<null>":this.diemDen));
+        sb.append(((this.diemDen == null) ? "<null>" : this.diemDen));
         sb.append(',');
         sb.append("thoiGianXuatPhat");
         sb.append('=');
-        sb.append(((this.thoiGianXuatPhat == null)?"<null>":this.thoiGianXuatPhat));
+        sb.append(((this.thoiGianXuatPhat == null) ? "<null>" : this.thoiGianXuatPhat));
         sb.append(',');
         sb.append("thoiGianHaCanh");
         sb.append('=');
-        sb.append(((this.thoiGianHaCanh == null)?"<null>":this.thoiGianHaCanh));
+        sb.append(((this.thoiGianHaCanh == null) ? "<null>" : this.thoiGianHaCanh));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }

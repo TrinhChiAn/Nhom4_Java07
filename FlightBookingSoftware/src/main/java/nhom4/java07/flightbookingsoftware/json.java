@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.List;
+import nhom4.java07.flightbookingsoftware.model.Airlines;
 import nhom4.java07.flightbookingsoftware.model.ChuyenBay;
 import nhom4.java07.flightbookingsoftware.model.HangVe;
 import nhom4.java07.flightbookingsoftware.model.ThongTinChuyenBay;
@@ -22,15 +23,9 @@ import nhom4.java07.flightbookingsoftware.model.VeMayBay;
  */
 public class json {
 
-    private static final String JSON_FILE_PATH = "I:\\Nhom4_Java07\\Thông tin vé.json";
+    private static final String JSON_FILE_PATH = "I:\\Nhom4_Java07\\Vé vừa tạo.json";
     private static final String JSON_FILE_PATH2 = "I:\\Nhom4_Java07\\Chuyến bay vừa tạo.json";
-
-    static <E> void show(List<E> list) {
-        System.out.println("==================");
-        for (E item : list) {
-            System.out.println(item.toString());
-        }
-    }
+    private static final String JSON_FILE_PATH3 = "I:\\Nhom4_Java07\\Hãng hàng không vừa tạo.json";
 
     static void them1VeMayBay(String maHang, String MaMayBay, String MaChuyenBay, int a, String hoTen) {
         FileWriter fw = null;
@@ -107,6 +102,32 @@ public class json {
 
     }
 
-    
-    
+    static void addAirline(String tenHang, int soLuongMayBay, List<String> danhSachSoHieuMayBay) {
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(JSON_FILE_PATH3);
+            Gson gson = new Gson();
+
+            Airlines airlines = new Airlines();
+            airlines.setTenHang(tenHang);
+            airlines.setSoLuongMayBay(soLuongMayBay);
+            airlines.setDanhSachSoHieuMayBay(danhSachSoHieuMayBay);
+            while (danhSachSoHieuMayBay.size() > soLuongMayBay) {
+                airlines.danhSachSoHieuMayBay.remove(danhSachSoHieuMayBay.size() - 1);
+            }
+
+            String data = gson.toJson(airlines);
+            fw.write(data);
+        } catch (Exception e) {
+        } finally {
+            if (fw != null) {
+                try {
+                    fw.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+
+    }
+
 }

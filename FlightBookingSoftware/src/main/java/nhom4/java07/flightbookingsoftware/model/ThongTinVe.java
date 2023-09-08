@@ -1,10 +1,7 @@
-
 package nhom4.java07.flightbookingsoftware.model;
-
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 
 public class ThongTinVe {
 
@@ -73,8 +70,8 @@ public class ThongTinVe {
         sb.append('=');
         sb.append(this.giaVeThuongGia);
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
