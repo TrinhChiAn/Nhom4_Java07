@@ -7,7 +7,6 @@ package nhom4.java07.flightbookingsoftware;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -113,16 +112,6 @@ public class Airline implements Comparable<Airline> {
         return list;
     }
 
-    public ArrayList<Flight> cacChuyenBayDen(String str) { //Lọc các chuyến bay theo điểm đến
-        ArrayList list = new ArrayList<>();
-        for (Flight flight : flightslist) {
-            if (flight.getDestination().equalsIgnoreCase(str) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
-                list.add(flight);
-            }
-        }
-        return list;
-    }
-
     //======================================================================================================
     //Lấy thông tin chuyến bay
     public void showInfoFlights(String maMayBay) {
@@ -166,41 +155,41 @@ public class Airline implements Comparable<Airline> {
         return revenue;
     }
 
-    public List<Flight> kiemTraConTrongHangTrongNgay(LocalDateTime A) {
+    public ArrayList<Flight> kiemTraConTrongHangTrongNgay(LocalDateTime A) {
         ArrayList<Flight> list = filterFlightsByDate(A);
         ArrayList<Flight> retu = new ArrayList<>();
         for (Flight item : list) {
-            if (item.isConTrong()) {
+            if (item.isConTrong() && item.getDeparturetime().getDayOfMonth() == A.getDayOfMonth() && item.getDeparturetime().getYear() == A.getYear()) {
                 retu.add(item);
             }
         }
         return retu;
     }
 
-    public List<Flight> kiemTraConTrongHangTheoGio(LocalDateTime A) {
+    public ArrayList<Flight> kiemTraConTrongHangTheoGio(LocalDateTime A) {
         ArrayList<Flight> list = filterFlightsByTime(A);
         ArrayList<Flight> retur = new ArrayList<>();
         for (Flight item : list) {
-            if (item.isConTrong()) {
+            if (item.isConTrong() && item.getDeparturetime().getDayOfMonth() == A.getDayOfMonth() && item.getDeparturetime().getYear() == A.getYear() && item.getDeparturetime().getHour() == A.getHour()) {
                 retur.add(item);
             }
         }
         return retur;
     }
 
-    public void Them1ChiecMayBay(Scanner sc) {
+    public void Them1ChiecMayBay(Scanner sc, int a) {
         aircraftCount = aircraftCount++;
         IdGenerator generator = new IdGenerator();
-        generator.init("TK", "", aircraftNumbers.size());
+        generator.init("TK", "Air" + String.valueOf(a), aircraftNumbers.size());
         aircraftNumbers.add(generator.generate());
     }
-    
-    public void xoa1ChiecMayBay(Scanner sc){
+
+    public void xoa1ChiecMayBay(Scanner sc) {
         aircraftCount = aircraftCount--;
         System.out.print("Nhap vao ma may bay muon xoa");
         String maMayBay = sc.nextLine();
-        for(int i=0; i<aircraftNumbers.size(); i++){
-            if(aircraftNumbers.get(i)!=null&&aircraftNumbers.get(i).equals(maMayBay )){
+        for (int i = 0; i < aircraftNumbers.size(); i++) {
+            if (aircraftNumbers.get(i) != null && aircraftNumbers.get(i).equals(maMayBay)) {
                 aircraftNumbers.set(i, null);
             }
         }

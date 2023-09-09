@@ -1,9 +1,7 @@
 package nhom4.java07.flightbookingsoftware;
 
-import java.lang.reflect.Modifier;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class FlightManagementSystem {
@@ -23,11 +21,12 @@ public class FlightManagementSystem {
         Tickets = new ArrayList<>();
         Flights = new ArrayList<>();
     }
+
     // lọc các chuyến bay con trong theo ngay
     public ArrayList<Flight> filterFlightsByDate(LocalDateTime A) {
         ArrayList flightsbyDate = new ArrayList<>();
         for (Flight flight : Flights) {
-            if (flight.isConTrong() && A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth()) {
+            if (flight != null && flight.isConTrong() && A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth()) {
                 flightsbyDate.add(flight);
             }
         }
@@ -38,7 +37,7 @@ public class FlightManagementSystem {
     public ArrayList<Flight> filterFlightsByTime(LocalDateTime A) {
         ArrayList flightsbyTime = new ArrayList<>();
         for (Flight flight : Flights) {
-            if (flight.isConTrong() && A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth() && A.getHour() == flight.getDeparturetime().getHour()) {
+            if (flight != null && flight.isConTrong() && A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth() && A.getHour() == flight.getDeparturetime().getHour()) {
                 flightsbyTime.add(flight);
             }
         }
@@ -50,11 +49,11 @@ public class FlightManagementSystem {
         System.out.print("Nhap vao ma ve: ");
         String maVe = sc.nextLine();
         for (int k = Tickets.size() - 1; k >= 0; k--) {
-            if (Tickets.get(k).getTicketCode().equals(maVe)) {
+            if (Tickets.get(k) != null && Tickets.get(k).getTicketCode().equals(maVe)) {
                 for (int i = 0; i <= Airlines.size() - 1; i++) {
-                    if (Airlines.get(i).getAirlineCode().equals(Tickets.get(k).getAirlineCode())) {
+                    if (Airlines.get(i) != null && Airlines.get(i).getAirlineCode().equals(Tickets.get(k).getAirlineCode())) {
                         for (int j = Airlines.get(i).getFlightslist().size() - 1; j >= 0; j--) {
-                            if (Airlines.get(i).getFlightslist().get(j).getFlightNumber().equals(Tickets.get(k).getFlightNumber())) {
+                            if (Airlines.get(i).getFlightslist().get(j) != null && Airlines.get(i).getFlightslist().get(j).getFlightNumber().equals(Tickets.get(k).getFlightNumber())) {
                                 Airlines.get(i).getFlightslist().get(j).getListTicktet().remove(Tickets.get(k));
                                 Tickets.get(k).setTicketCode("0");
                                 return;
@@ -75,15 +74,15 @@ public class FlightManagementSystem {
             System.out.println("Nhap vao ma hang: ");
             String maHang = sc.nextLine();
             for (int i = 0; i < Airlines.size(); i++) {
-                if (Airlines.get(i).getAirlineCode().equals(maHang)) {
+                if (Airlines.get(i) != null && Airlines.get(i).getAirlineCode().equals(maHang)) {
                     System.out.print("Nhap vao ma may bay: ");
                     String maMayBay = sc.nextLine();
                     for (int j = 0; j < Airlines.get(i).getAircraftNumbers().size(); j++) {
-                        if (Airlines.get(i).getAircraftNumbers().get(j).equals(maMayBay)) {
+                        if (Airlines.get(i).getAircraftNumbers().get(j) != null && Airlines.get(i).getAircraftNumbers().get(j).equals(maMayBay)) {
                             System.out.println("Nhap vao ma chuyen bay:");
                             String maChuyenBay = sc.nextLine();
                             for (int k = Airlines.get(i).getFlightslist().size() - 1; k >= 0; k--) {
-                                if (maChuyenBay.equals(Airlines.get(i).getFlightslist().get(k).getFlightNumber())) {
+                                if (Airlines.get(i).getFlightslist().get(k) != null && maChuyenBay.equals(Airlines.get(i).getFlightslist().get(k).getFlightNumber())) {
                                     int loaiVe;
                                     do {
                                         System.out.print("Nhap loai ve muon mua(thuong gia: 1 | pho thong: 2): ");
@@ -93,7 +92,7 @@ public class FlightManagementSystem {
                                     Airlines.get(i).getFlightslist().get(k).getListTicktet().add(new Ticket(Tickets.size() + 1, maChuyenBay, Airlines.get(i).getFlightslist().get(k).getDeparture(), Airlines.get(i).getFlightslist().get(k).getDestination(), Airlines.get(i).getFlightslist().get(k).getDeparturetime(), Airlines.get(i).getFlightslist().get(k).getArrivalTime(), loaiVe, maHang));
                                     System.out.print("Nhap vao ho va ten hanh khach: ");
                                     Airlines.get(i).getFlightslist().get(k).getListPassenger().add(new Passenger(Tickets.size() + 1, sc.nextLine(), Airlines.get(i).getFlightslist().get(k).getListTicktet().get(Airlines.get(i).getFlightslist().get(k).getListTicktet().size() - 1).getTicketCode()));
-                                    Tickets.add(new Ticket(Tickets.size() + 1, maChuyenBay, Airlines.get(i).getFlightslist().get(k).getDeparture(), Airlines.get(i).getFlightslist().get(k).getDestination(), Airlines.get(i).getFlightslist().get(k).getDeparturetime(), Airlines.get(i).getFlightslist().get(k).getArrivalTime(), loaiVe, maHang));
+                                    Tickets.add(new Ticket(Tickets.size(), maChuyenBay, Airlines.get(i).getFlightslist().get(k).getDeparture(), Airlines.get(i).getFlightslist().get(k).getDestination(), Airlines.get(i).getFlightslist().get(k).getDeparturetime(), Airlines.get(i).getFlightslist().get(k).getArrivalTime(), loaiVe, maHang));
                                     if (loaiVe == 1) {
                                         Airlines.get(i).getFlightslist().get(k).setBusinessSeats(Airlines.get(i).getFlightslist().get(k).getBusinessSeats() + 1);
                                     } else {
@@ -122,11 +121,11 @@ public class FlightManagementSystem {
             System.out.print("Nhap vao ma hang: ");
             String maHang = sc.nextLine();
             for (int i = 0; i < Airlines.size(); i++) {
-                if (Airlines.get(i).getAirlineCode().equals(maHang)) {
+                if (Airlines.get(i) != null && Airlines.get(i).getAirlineCode().equals(maHang)) {
                     System.out.print("Nhap vao ma may bay: ");
                     String maMayBay = sc.nextLine();
                     for (int j = 0; j < Airlines.get(i).getAircraftNumbers().size(); j++) {
-                        if (Airlines.get(i).getAircraftNumbers().get(j).equals(maMayBay)) {
+                        if (Airlines.get(i).getAircraftNumbers().get(j) != null && Airlines.get(i).getAircraftNumbers().get(j).equals(maMayBay)) {
                             System.out.print("Diem xuat phat: ");
                             String departure = sc.nextLine();
                             System.out.print("diem den: ");
@@ -142,7 +141,7 @@ public class FlightManagementSystem {
                                 arrivalTime = LocalDateTime.parse(sc.nextLine());
                             } while (arrivalTime.isBefore(departuretime));
                             for (int k = Airlines.get(i).getFlightslist().size() - 1; k >= 0; k++) {
-                                if (Airlines.get(i).getFlightslist().get(i).getAircraftNumber().equals(maMayBay) && Airlines.get(i).getFlightslist().get(k).getArrivalTime().isAfter(departuretime)) {
+                                if (Airlines.get(i).getFlightslist().get(k) != null && Airlines.get(i).getFlightslist().get(i).getAircraftNumber().equals(maMayBay) && Airlines.get(i).getFlightslist().get(k).getArrivalTime().isAfter(departuretime)) {
                                     System.out.println("May bay nay chua ha canh");
                                     return;
                                 }
@@ -157,7 +156,7 @@ public class FlightManagementSystem {
                             double giaVeThuongGia = sc.nextDouble();
 
                             Airlines.get(i).getFlightslist().add(new Flight(this.Flights.size() + 1, maMayBay, departure, destination, departuretime, arrivalTime, businessSeats, economySeats, 0, 0, giaVePhoThong, giaVeThuongGia, new ArrayList(), new ArrayList()));
-                            Flights.add(new Flight(this.Flights.size() + 1, maMayBay, departure, destination, departuretime, arrivalTime, businessSeats, economySeats, 0, 0, giaVePhoThong, giaVeThuongGia, new ArrayList(), new ArrayList()));
+                            Flights.add(new Flight(this.Flights.size(), maMayBay, departure, destination, departuretime, arrivalTime, businessSeats, economySeats, 0, 0, giaVePhoThong, giaVeThuongGia, new ArrayList(), new ArrayList()));
                             break;
                         }
                     }
@@ -206,16 +205,17 @@ public class FlightManagementSystem {
             String tenHang = sc.nextLine();
             System.out.print("Nhap vao so luong may bay cua hang:");
             int soLuongMayBay = sc.nextInt();
-            System.out.print("Nhap vao danh sach so hieu may bay:");
+
             ArrayList<String> maMayBay = new ArrayList<>();
             for (int i = 0; i < soLuongMayBay; i++) {
                 IdGenerator generator = new IdGenerator();
-                generator.init("TK", "", 1);
+
+                generator.init("MH", "Air" + String.valueOf(Airlines.size() + 1), i);
                 maMayBay.add(generator.generate());
             }
             ArrayList<Flight> listFlight = new ArrayList<>();
             // làm việc với file;
-            Airlines.add(new Airline(Airlines.size() + 1, tenHang, soLuongMayBay, maMayBay, listFlight));
+            Airlines.add(new Airline(Airlines.size(), tenHang, soLuongMayBay, maMayBay, listFlight));
         } catch (Exception e) {
             System.out.println("Ban da nhap sai gia tri.");
         }
@@ -233,5 +233,63 @@ public class FlightManagementSystem {
             }
         }
         System.out.println("Khong tim thay hang hang khong nao co ma: " + maHang);
+    }
+
+    //==================================================================================
+    //Lọc các chuyến bay theo ngày
+    public ArrayList<Flight> CacChuyenBayTheoNgay(LocalDateTime A) {
+        ArrayList flightsbyDate = new ArrayList<>();
+        for (Flight flight : Flights) {
+            if (A.getYear() == flight.getDeparturetime().getYear() && A.getDayOfMonth() == flight.getDeparturetime().getDayOfMonth() && A.getMonth() == flight.getDeparturetime().getMonth()) {
+                flightsbyDate.add(flight);
+            }
+        }
+        return flightsbyDate;
+    }
+
+    public ArrayList<Flight> CacChuyenBayTheoNgayDen(LocalDateTime A) {
+        ArrayList flightsbyDate = new ArrayList<>();
+        for (Flight flight : Flights) {
+            if (A.getYear() == flight.getArrivalTime().getYear() && A.getDayOfMonth() == flight.getArrivalTime().getDayOfMonth() && A.getMonth() == flight.getArrivalTime().getMonth()) {
+                flightsbyDate.add(flight);
+            }
+        }
+        return flightsbyDate;
+    }
+
+    public ArrayList<Flight> cacChuyenBayDen(String str) { //Lọc các chuyến bay theo điểm đến
+        ArrayList list = new ArrayList<>();
+        for (Flight flight : Flights) {
+            if (flight.getDestination().equalsIgnoreCase(str) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
+                list.add(flight);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Flight> cacChuyenBayDiTu(String str) { //Lọc các chuyến bay theo điểm đi
+        ArrayList list = new ArrayList<>();
+        for (Flight flight : Flights) {
+            if (flight.getDeparture().equalsIgnoreCase(str) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
+                list.add(flight);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Flight> cacChuyenBayDiTuVaHaCanhTai(String str1, String str2) {
+        ArrayList<Flight> list = new ArrayList<>();
+        for (Flight flight : Flights) {
+            if (flight.getDeparture().equalsIgnoreCase(str1) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
+                list.add(flight);
+            }
+        }
+        ArrayList listr = new ArrayList<>();
+        for (Flight flight : list) {
+            if (flight.getDestination().equalsIgnoreCase(str2) && flight.getDeparturetime().isAfter(LocalDateTime.now())) {
+                list.add(flight);
+            }
+        }
+        return listr;
     }
 }
