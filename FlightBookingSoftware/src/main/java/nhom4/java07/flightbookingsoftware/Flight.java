@@ -148,10 +148,13 @@ public class Flight { // chuyến bay
     public void setListPassenger(ArrayList<Passenger> listPassenger) {
         this.listPassenger = listPassenger;
     }
+<<<<<<< HEAD
+=======
 
     public ArrayList<Ticket> getListTicktet() {
         return listTicktet;
     }
+>>>>>>> ee906fc3c222eedf28ad0f2e2fbda7da541380a1
 
     public void setListTicktet(ArrayList<Ticket> listTicktet) {
         this.listTicktet = listTicktet;
@@ -169,6 +172,47 @@ public class Flight { // chuyến bay
         return giaVeThuongGia;
     }
 
+<<<<<<< HEAD
+    public double doanhThu(Flight[] fl, int choose, int option) {
+        double turnOver = 0;
+
+        for (Flight flight : fl) {
+            if (choose == 1) { // tinh doanh thu theo thang
+                if (flight.getArrivalTime().getMonth().getValue() == option) {
+                    turnOver += flight.getSoldEconomTickets() * flight.getEconomyFare()
+                            + flight.getSoldBusinessTickets() * flight.getBusinessFare();
+                }
+            } else if (choose == 2) { // tinh doanh thu theo nam
+                if (flight.getArrivalTime().getYear() == option) {
+                    turnOver += flight.getSoldEconomTickets() * flight.getEconomyFare()
+                            + flight.getSoldBusinessTickets() * flight.getBusinessFare();
+                }
+            }
+        }
+        return turnOver;
+    }
+
+    public void showTicketClassEcoRemaining(Flight fl) {
+
+        int avaBusiTicket = fl.getSoldBusinessTickets();
+        int totalBusi = fl.getBusinessSeats();
+        System.out.println("So ve hang thuong gia: " + (totalBusi - avaBusiTicket));
+    }
+
+    public void showTicketClassBussRemaining(Flight fl) {
+        int avaEcoTicket = fl.getSoldEconomTickets();
+        int totalEco = fl.getEconomySeats();
+        System.out.println("So ve hang pho thong: " + (totalEco - avaEcoTicket));
+    }
+
+    public void addPassenger(Passenger passenger) {
+        listPassenger.add(passenger);
+    }
+
+    public void removePassenger(Passenger passenger) {
+        listPassenger.remove(passenger);
+    }
+=======
     public void setGiaVeThuongGia(double giaVeThuongGia) {
         this.giaVeThuongGia = giaVeThuongGia;
     }
@@ -200,4 +244,5 @@ public class Flight { // chuyến bay
         listPassenger.remove(passenger);
     }
     
+>>>>>>> ee906fc3c222eedf28ad0f2e2fbda7da541380a1
 }
